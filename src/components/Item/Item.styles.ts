@@ -1,24 +1,27 @@
 import styled from 'styled-components';
 
 export const ItemContainer = styled.div`
-
-    background: ${props => props.theme.bonus ? 'gold' : '#dedede'} ;
-    width: 48%;
+    background: ${props => props.theme.bonus ? 'var(--red)' : 'white'} ;
+    width: 44%;
     margin-bottom: 10px;
     height: 120px;
     display: flex;
     flex-wrap: wrap;
     align-items: space-between;
     border-radius: 5px;
-    box-shadow: 0 0 5px ${props => props.theme.bonus ? 'gold' : props.theme.color};
-    text-shadow: 0.1em 0.1em 0.2em black;
+    box-shadow: 0px 30px 40px -20px hsl(229, 6%, 66%);
+    padding: 10px;
+    border-top: 8px solid ${props => props.theme.background};
+
+    color: ${props => props.theme.bonus ? 'white' : 'var(--veryDarkBlue)'} ;
+
 `;
 
 export const  ItemName = styled.div`
     text-align: center;
     width: 100%;
     font-size: 18px;
-    color: white;
+    font-weight: 200;
 `;
 
 export const ItemStats = styled.div`
@@ -26,17 +29,23 @@ export const ItemStats = styled.div`
     align-items: center;
     display: flex;
     flex-wrap: wrap;
-    justify-content:space-center;
+    justify-content:space-between;
 `;
 export const  ItemColor = styled.div`
-    width: 25%;
-    height: 100%;
+    width: 25px;
+    height: 25px;
     background: ${props => props.color};
-    border-radius: 0 5px 5px 0  ;
+    border-radius: 5px;
 `;
 export const  ItemPercentage = styled.div`
+
+    font-weight: 600;
     width: 100%;
     font-size: 24px;
-    color: white;
     text-align: center;
+`;
+
+export const  ItemBonus = styled.div`
+
+    font-weight: 600;
 `;

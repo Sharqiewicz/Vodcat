@@ -9,21 +9,22 @@ type Alcohol = {
   id: string;
 }
 
-const defaultAlcohols: Alcohol[] = [
+const defaultAlcohol: Alcohol[] = [
   { name: 'Kustosz Tequila', percentage: 6, color: 'yellow', bonus: true, id: '423n5k' },
   { name: 'Vodka', percentage: 40, color: 'white', bonus: false, id: '9b9dma' },
   { name: 'Dębowe Mocne', percentage: 9, color: 'brown', bonus: false, id: 'vsdigbf' },
+  { name: 'Woda z ogórków', percentage: 9, color: '#883aff', bonus: false, id: 'vsdigbf' },
 ]
 
-export interface AlcoholsState {
+export interface AlcoholState {
   items: Alcohol[];
 }
 
-const initialState: AlcoholsState = {
-  items: defaultAlcohols
+const initialState: AlcoholState = {
+  items: defaultAlcohol
 };
 
-export const alcoholsSlice = createSlice({
+export const alcoholSlice = createSlice({
   name: 'alcohol',
   initialState,
   reducers: {
@@ -36,8 +37,8 @@ export const alcoholsSlice = createSlice({
   },
 });
 
-export const { addItem, remove } = alcoholsSlice.actions;
+export const { addItem, remove } = alcoholSlice.actions;
 
-export const selectItems = (state: RootState) => state.alcohols.items;
+export const selectItems = (state: RootState) => state.alcohol.items;
 
-export default alcoholsSlice.reducer;
+export default alcoholSlice.reducer;

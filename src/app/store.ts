@@ -1,9 +1,9 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import alcoholsReducer from '../storage/alcoholsSlice';
+import alcoholReducer from '../storage/alcoholSlice';
 
 export const store = configureStore({
   reducer: {
-    alcohols: alcoholsReducer,
+    alcohol: alcoholReducer,
   },
 });
 
