@@ -14,7 +14,8 @@
 body{
     margin: 0px !important;
     padding: 0px !important;
-    background: var(--veryLightGray);
+    background: url('./assets/bg.svg');
+    background-size: cover;
     font-family: 'Poppins', sans-serif;
 }
 

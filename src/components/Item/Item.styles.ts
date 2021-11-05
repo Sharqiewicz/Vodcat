@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
 export const ItemContainer = styled.div`
-    background: ${props => props.theme.bonus ? 'var(--red)' : 'white'} ;
-    width: 44%;
+    background: ${props => props.theme.bonus ? 'var(--veryDarkBlue)' : 'white'} ;
+    width: 100%;
     margin-bottom: 10px;
     height: 120px;
     display: flex;
@@ -20,7 +20,7 @@ export const ItemContainer = styled.div`
 export const  ItemName = styled.div`
     text-align: center;
     width: 100%;
-    font-size: 18px;
+    font-size: 26px;
     font-weight: 200;
 `;
 
@@ -41,11 +41,13 @@ export const  ItemPercentage = styled.div`
 
     font-weight: 600;
     width: 100%;
-    font-size: 24px;
+    font-size: 30px;
     text-align: center;
 `;
 
 export const  ItemBonus = styled.div`
-
+    width: 65%;
+    text-align:center;
+    font-size: 18px;
     font-weight: 600;
 `;

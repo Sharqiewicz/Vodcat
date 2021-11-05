@@ -1,5 +1,5 @@
 import {NormalLayout} from '../../layouts/NormalLayout'
-import Form from '../../components/AlcoholForm'
+import Form from '../../components/AlcoholForm/AlcoholForm'
 import { useSelector } from 'react-redux';
 import {Item} from '../../components/Item/Item'
 import { Container } from './ChoicePage.styles';
@@ -11,7 +11,6 @@ const ChoicePage = () => {
     return (
         <NormalLayout>
             <Container>
-            <h1>Choose your alcohol</h1>
             {items.map( (item:any) => <Item {...item}/> )}
             <Form/>
             </Container>

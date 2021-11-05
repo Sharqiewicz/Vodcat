@@ -29,7 +29,7 @@ export const alcoholSlice = createSlice({
   initialState,
   reducers: {
     addItem: (state, action : any) => {
-      state.items.push(action.value);
+      state.items.push(action.payload);
     },
     remove: (state, action:any) => {
       state.items.filter( item => item.id !== action.id)
