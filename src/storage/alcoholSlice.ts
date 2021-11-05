@@ -1,13 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../app/store';
-
-type Alcohol = {
-  name: string;
-  percentage: number;
-  color: string;
-  bonus: boolean;
-  id: string;
-}
+import {Alcohol} from '../types';
 
 const defaultAlcohol: Alcohol[] = [
   { name: 'Kustosz Tequila', percentage: 6, color: 'yellow', bonus: true, id: '423n5k' },
@@ -31,13 +24,13 @@ export const alcoholSlice = createSlice({
     addItem: (state, action : any) => {
       state.items.push(action.payload);
     },
-    remove: (state, action:any) => {
-      state.items.filter( item => item.id !== action.id)
+    removeItem: (state, action:any) => {
+      state.items.filter( item => item.id !== action.payload.id)
     },
   },
 });
 
-export const { addItem, remove } = alcoholSlice.actions;
+export const { addItem, removeItem } = alcoholSlice.actions;
 
 export const selectItems = (state: RootState) => state.alcohol.items;
 

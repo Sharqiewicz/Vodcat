@@ -1,9 +1,11 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import alcoholReducer from '../storage/alcoholSlice';
+import playersReducer from '../storage/playersSlice';
 
 export const store = configureStore({
   reducer: {
     alcohol: alcoholReducer,
+    players: playersReducer,
   },
 });
 
