@@ -1,9 +1,8 @@
 export type Player = {
-    name: string;
-    poits: number;
-    current: boolean;
-    id: string;
-}
+  name: string;
+  points: number;
+  id: string;
+};
 
 export type Alcohol = {
   name: string;
@@ -11,4 +10,26 @@ export type Alcohol = {
   color: string;
   bonus: boolean;
   id: string;
-}
+};
+
+export type Proportions = 2 | 4 | 3;
+
+export type Shot = {
+  alcohol: Alcohol[];
+  proportions: Proportions[];
+  points: number;
+};
+
+export type Game = {
+  currentPlayer: string;
+  currentTurn: number;
+  currentShot: Shot[];
+
+  players: Player[];
+  alcohols: Alcohol[];
+};
+
+export type Turn = {
+  currentPlayer: Player;
+  currentShot: Shot;
+};

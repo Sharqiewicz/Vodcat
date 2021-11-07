@@ -1,32 +1,55 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../app/store';
-import {Player} from '../types'
+import { Player } from '../types';
+import { getUniqueID } from '../utils';
 
-
-const defaultState: Player[] = []
+const defaultState: Player[] = [
+  {
+    name: 'Kacper',
+    points: 0,
+    id: '78928242',
+  },
+  {
+    name: 'Gosia',
+    points: 0,
+    id: 'dsakj2234',
+  },
+  {
+    name: 'Julia',
+    points: 0,
+    id: 'hfewuhj32',
+  },
+];
 
 export interface PlayersState {
   list: Player[];
 }
 
 const initialState: PlayersState = {
-  list: defaultState
+  list: defaultState,
 };
 
 export const playersSlice = createSlice({
   name: 'players',
   initialState,
   reducers: {
-    addPlayer: (state, action : any) => {
-      state.list.push(action.payload);
+    addPlayer: (state, action: { payload: string }) => {
+      state.list.push({ name: action.payload, points: 0, id: getUniqueID() });
     },
-    removePlayer: (state, action:any) => {
-      state.list.filter( player => player.id !== action.payload.id)
+    addPoints: (state, action: { payload: { id: string; points: number } }) => {
+      console.log('action', action);
+
+      state.list = state.list.map((player) =>
+        player.id === action.payload.id ? { ...player, points: action.payload.points } : player
+      );
+    },
+    removePlayer: (state, action: { payload: string }) => {
+      state.list.filter((player) => player.id !== action.payload);
     },
   },
 });
 
-export const { addPlayer, removePlayer } = playersSlice.actions;
+export const { addPlayer, removePlayer, addPoints } = playersSlice.actions;
 
 export const selectPlayers = (state: RootState) => state.players.list;
 
