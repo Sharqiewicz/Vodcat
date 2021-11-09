@@ -37,6 +37,10 @@ export class Engine {
     };
   }
 
+  getAnotherShot(): Shot {
+    return this.getRandomShot();
+  }
+
   startGame(): Turn {
     this.isNewRound = false;
     return {

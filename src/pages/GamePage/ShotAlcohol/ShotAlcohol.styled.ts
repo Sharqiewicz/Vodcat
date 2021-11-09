@@ -21,6 +21,11 @@ export const Description = styled.div`
   -webkit-text-fill-color: white; /* Will override color (regardless of order) */
   -webkit-text-stroke-width: 1px;
   -webkit-text-stroke-color: #001232;
+  white-space: wrap;
+
+  & div {
+    width: 100%;
+  }
 `;
 
 export const DescriptionContainer = styled.div`

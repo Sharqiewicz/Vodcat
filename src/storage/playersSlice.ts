@@ -14,11 +14,6 @@ const defaultState: Player[] = [
     points: 0,
     id: 'dsakj2234',
   },
-  {
-    name: 'Julia',
-    points: 0,
-    id: 'hfewuhj32',
-  },
 ];
 
 export interface PlayersState {
@@ -40,7 +35,7 @@ export const playersSlice = createSlice({
       console.log('action', action);
 
       state.list = state.list.map((player) =>
-        player.id === action.payload.id ? { ...player, points: action.payload.points } : player
+        player.id === action.payload.id ? { ...player, points: player.points + action.payload.points } : player
       );
     },
     removePlayer: (state, action: { payload: string }) => {

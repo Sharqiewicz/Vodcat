@@ -38,21 +38,20 @@ export class ShotFactory {
     return proportions.map(() => getRandomItemFromArray(this.alcohol));
   }
 
-  private getPointsForShot(capacities: any, alcohol: any): number {
+  private getPointsForShot(capacities: any, alcohol: Alcohol[]): number {
     const sum = capacities.map(function (num: number, idx: number) {
       return num * alcohol[idx].percentage;
     });
 
     const points = sum.reduce((acc: number, curr: number) => acc + curr);
-    return Math.floor(points * 0.1);
+    const bonusPoints = alcohol.some((a) => a.bonus) ? points * 2 : points;
+    return Math.floor(bonusPoints * 0.1);
   }
 
   getRandomShot(): Shot {
     const randomCapacities = this.getRandomCapacities(this.capacity);
     const randomAlcohol = this.getRandomAlcohol(randomCapacities);
     const points = this.getPointsForShot(randomCapacities, randomAlcohol);
-    console.log('points');
-    console.log(points);
     return {
       alcohol: randomAlcohol,
       proportions: randomCapacities,

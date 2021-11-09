@@ -50,29 +50,35 @@ export default function DrinkPage() {
   const [isDone, setIsDone] = useState(false);
   const [currentTurn, setCurrentTurn] = useState<Turn>(game.startGame());
   const [currentScaleColor, setCurrentScaleColor] = useState(getScaleColor(currentTurn.currentShot.points));
+  const [nowPlayer, setNowPlayer] = useState(players.find((player) => player.id === currentTurn.currentPlayer.id));
 
   const handleGetRandomShot = (): void => {
     console.log('new Turn?');
     const newTurn = game.playTurn();
-    console.log(newTurn);
     setCurrentTurn(newTurn);
+    setNowPlayer(players.find((player) => player.id === newTurn.currentPlayer.id));
     setCurrentScaleColor(getScaleColor(newTurn.currentShot.points));
     setIsDrawed(false);
     setIsDone(false);
   };
 
+  const handleGetAnotherShot = () => {
+    const newShot = game.getAnotherShot();
+    setCurrentTurn({ ...currentTurn, currentShot: newShot });
+    setCurrentScaleColor(getScaleColor(newShot.points));
+    dispatch(addPoints({ id: currentTurn.currentPlayer.id, points: -2 }));
+  };
+
   const handleDone = (): void => {
+    setNowPlayer(players.find((player) => player.id === currentTurn.currentPlayer.id));
+
     const done = {
       id: currentTurn.currentPlayer.id,
-      points: currentTurn.currentPlayer.points + currentTurn.currentShot.points,
+      points: currentTurn.currentShot.points,
     };
     dispatch(addPoints(done));
     setIsDone(true);
   };
-
-  console.log('currentTurn');
-  console.log(currentTurn);
-  console.log('game now', game);
 
   return (
     <NormalLayout>
@@ -85,9 +91,7 @@ export default function DrinkPage() {
               <PlayerStatsContainer>
                 <PlayerName>{currentTurn.currentPlayer.name}</PlayerName>
                 <PlayerPoints>
-                  {isDone
-                    ? currentTurn.currentPlayer.points + currentTurn.currentShot.points
-                    : currentTurn.currentPlayer.points}
+                  {isDone ? nowPlayer?.points || 0 + currentTurn.currentShot.points : nowPlayer?.points || 0}
                 </PlayerPoints>
               </PlayerStatsContainer>
             </PlayerStats>
@@ -117,9 +121,12 @@ export default function DrinkPage() {
             )}
             {isDrawed ? (
               isDone ? (
-                <Button onClick={handleGetRandomShot}>DONE</Button>
+                <Button onClick={handleGetRandomShot}>NEXT PLAYER</Button>
               ) : (
-                <Button onClick={handleDone}>NEXT PLAYER</Button>
+                <>
+                  <Button onClick={handleDone}>DONE</Button>
+                  <Button onClick={handleGetAnotherShot}>DRAW ANOTHER (-2POINTS)</Button>
+                </>
               )
             ) : (
               <Button onClick={() => setIsDrawed(true)}>Draw a shot!</Button>

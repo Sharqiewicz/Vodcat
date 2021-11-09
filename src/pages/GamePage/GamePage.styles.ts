@@ -40,10 +40,12 @@ export const ShotGlass = styled.div`
 export const DonePopup = styled.div`
   background: rgba(0, 0, 0, 0.4);
   width: 100%;
+  margin-top: 10vh;
   height: 70vh;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 0 50px;
 `;
 
 export const DoneMessage = styled.div`
