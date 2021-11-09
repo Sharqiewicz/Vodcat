@@ -42,7 +42,8 @@ function getScaleColor(points: number): string {
 export default function DrinkPage() {
   const alcohols: Alcohol[] = useSelector((state: RootState) => state.alcohol.items);
   const players: Player[] = useSelector((state: RootState) => state.players.list);
-  const game = useMemo(() => new Engine(players, alcohols), [players, alcohols]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const game = useMemo(() => new Engine(players, alcohols), []);
 
   const dispatch = useDispatch();
 
