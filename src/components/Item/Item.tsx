@@ -19,7 +19,9 @@ export const Item = (props: any) => {
             console.log('click');
             dispatch(removeItem(props.id));
           }}
-        ></ItemRemove>
+        >
+          X
+        </ItemRemove>
       </ItemStats>
     </ItemContainer>
   );

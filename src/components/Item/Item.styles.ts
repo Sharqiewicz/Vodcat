@@ -24,11 +24,11 @@ export const ItemName = styled.div`
 `;
 
 export const ItemStats = styled.div`
-  width: 75%;
+  width: 100%;
   align-items: center;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: space-around;
 `;
 export const ItemColor = styled.div`
   width: 25px;
@@ -38,10 +38,17 @@ export const ItemColor = styled.div`
 `;
 
 export const ItemRemove = styled.div`
-  width: 25px;
-  height: 25px;
+  width: 15px;
+  height: 15px;
   background: red;
   border-radius: 5px;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: white;
+  font-size: 18px;
 `;
 export const ItemPercentage = styled.div`
   font-weight: 600;

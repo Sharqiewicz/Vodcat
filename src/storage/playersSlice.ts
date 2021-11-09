@@ -32,14 +32,13 @@ export const playersSlice = createSlice({
       state.list.push({ name: action.payload, points: 0, id: getUniqueID() });
     },
     addPoints: (state, action: { payload: { id: string; points: number } }) => {
-      console.log('action', action);
-
       state.list = state.list.map((player) =>
         player.id === action.payload.id ? { ...player, points: player.points + action.payload.points } : player
       );
     },
     removePlayer: (state, action: { payload: string }) => {
-      state.list.filter((player) => player.id !== action.payload);
+      console.log('action', action);
+      state.list = state.list.filter((player) => player.id !== action.payload);
     },
   },
 });
