@@ -49,6 +49,7 @@ export default function DrinkPage() {
 
   const [isDrawed, setIsDrawed] = useState(false);
   const [isDone, setIsDone] = useState(false);
+  const [isNewRound, setIsNewRound] = useState(true);
   const [currentTurn, setCurrentTurn] = useState<Turn>(game.startGame());
   const [currentScaleColor, setCurrentScaleColor] = useState(getScaleColor(currentTurn.currentShot.points));
   const [nowPlayer, setNowPlayer] = useState(players.find((player) => player.id === currentTurn.currentPlayer.id));
@@ -57,6 +58,7 @@ export default function DrinkPage() {
     console.log('new Turn?');
     const newTurn = game.playTurn();
     setCurrentTurn(newTurn);
+    setIsNewRound(newTurn.isNewRound);
     setNowPlayer(players.find((player) => player.id === newTurn.currentPlayer.id));
     setCurrentScaleColor(getScaleColor(newTurn.currentShot.points));
     setIsDrawed(false);
@@ -81,11 +83,13 @@ export default function DrinkPage() {
     setIsDone(true);
   };
 
+  console.log('isNewRound');
+  console.log(isNewRound);
   return (
     <NormalLayout>
       <Container>
-        {game.isNewRound ? (
-          <RoundResultsPage />
+        {isNewRound ? (
+          <RoundResultsPage setIsNewRound={setIsNewRound} />
         ) : (
           <>
             <PlayerStats>

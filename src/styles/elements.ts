@@ -10,6 +10,25 @@ export const Container = styled.div`
   justify-content: space-between;
 `;
 
+export const NormalButton = styled.button`
+  background-color: black;
+  border: 1px solid transparent;
+  border-radius: 0.75rem;
+  box-sizing: border-box;
+  color: #ffffff;
+  cursor: pointer;
+  flex: 0 0 auto;
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.5rem;
+  padding: 0.75rem 1.2rem;
+  text-align: center;
+  text-decoration: none #6b7280 solid;
+  width: 100%;
+  margin: 10px auto;
+  margin-top: 50px;
+`;
+
 export const Button = styled(Link)`
   background-color: black;
   border: 1px solid transparent;

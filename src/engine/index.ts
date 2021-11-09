@@ -25,13 +25,17 @@ export class Engine {
 
   playTurn(): Turn {
     this.setNewCurrentPlayerIndex(this.currentPlayerIndex + 1);
+
+    let isNewRound = false;
     if (this.currentPlayerIndex >= this.players.length) {
       this.currentPlayerIndex = 0;
       this.isNewRound = true;
+      isNewRound = true;
     } else {
       this.isNewRound = false;
     }
     return {
+      isNewRound,
       currentPlayer: this.players[this.currentPlayerIndex],
       currentShot: this.getRandomShot(),
     };
@@ -44,6 +48,7 @@ export class Engine {
   startGame(): Turn {
     this.isNewRound = false;
     return {
+      isNewRound: false,
       currentPlayer: this.players[this.currentPlayerIndex],
       currentShot: this.getRandomShot(),
     };

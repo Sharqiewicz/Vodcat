@@ -30,6 +30,7 @@ export type Game = {
 };
 
 export type Turn = {
+  isNewRound: boolean;
   currentPlayer: Player;
   currentShot: Shot;
 };
