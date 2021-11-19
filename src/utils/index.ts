@@ -1,3 +1,1 @@
-export const getUniqueID = function () {
-  return '_' + Math.random().toString(36);
-};
+export const getUniqueID = (): string => '_' + Math.random().toString(36);
