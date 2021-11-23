@@ -29,7 +29,7 @@ export const Container = styled.div``;
 
 export const ShotGlass = styled.div`
   margin-top: 10vh;
-  height: 70vh;
+  height: 68vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -39,7 +39,7 @@ export const ShotGlass = styled.div`
 
 export const DonePopup = styled.div`
   background: rgba(0, 0, 0, 0.4);
-  width: 100%;
+  width: calc(100% - 100px);
   margin-top: 10vh;
   height: 70vh;
   display: flex;
@@ -48,8 +48,17 @@ export const DonePopup = styled.div`
   padding: 0 50px;
 `;
 
+export const PointsMessage = styled.div`
+  font-size: 26px;
+  font-weight: 600;
+  color: white;
+  text-shadow: 0.1em 0.1em 0.2em black;
+  width: 100%;
+  text-align: center;
+`;
+
 export const DoneMessage = styled.div`
-  font-size: 32px;
+  font-size: 42px;
   font-weight: 600;
   color: white;
   text-shadow: 0.1em 0.1em 0.2em black;
@@ -64,8 +73,9 @@ export const AlcoholContainer = styled.div`
   transform: perspective(200px) rotateX(160deg);
   margin: 50px;
   overflow: hidden;
-  border: 10px solid black;
-  max-width: 600px !important;
+  border: 10px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.2);
+  max-width: 500px !important;
 `;
 
 export const Empty = styled.div`
@@ -95,7 +105,6 @@ export const Button = styled.button`
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
-  width: 100%;
-  margin: 10px auto;
-  margin-top: 50px;
+  width: 90%;
+  margin: 10px 5%;
 `;

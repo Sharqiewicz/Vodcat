@@ -21,6 +21,7 @@ import {
   DonePopup,
   DoneMessage,
   DonePoints,
+  PointsMessage,
 } from './GamePage.styles';
 
 function getScaleColor(points: number): string {
@@ -129,6 +130,9 @@ export default function DrinkPage() {
                 <Button onClick={handleGetRandomShot}>NEXT PLAYER</Button>
               ) : (
                 <>
+                  <PointsMessage>
+                    Shot points: <DonePoints theme={currentScaleColor}>+ {currentTurn.currentShot.points}</DonePoints>
+                  </PointsMessage>
                   <Button onClick={handleDone}>DONE</Button>
                   <Button onClick={handleGetAnotherShot}>DRAW ANOTHER (-2POINTS)</Button>
                 </>
