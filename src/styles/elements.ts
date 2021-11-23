@@ -50,4 +50,10 @@ export const Button = styled(Link)`
 
 export const RouteButton = styled(Button)`
   background-color: var(--orange);
+
+  &.disabled {
+    background-color: black !important;
+    color: transparent !important;
+    pointer-events: none;
+  }
 `;

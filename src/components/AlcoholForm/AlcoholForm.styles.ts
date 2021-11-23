@@ -1,87 +1,125 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 export const Form = styled.form`
-    background: rgba(0,0,0,0.4);
-    padding: 10px;
-    border-radius: 5px;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 10px 25px;
+  border-radius: 5px;
 `;
 
 export const FormField = styled.input`
-    width: 90%;
-    border: 0px;
-    margin: 10px auto !important;
-    box-shadow: 0px 30px 40px -20px hsl(229, 6%, 66%);
-    font-size: 26px;
-    border-radius: 5px;
-    padding: 10px 20px;
+  width: 90%;
+  border: 0px;
+  margin: 10px auto !important;
+  box-shadow: 0px 30px 40px -20px hsl(229, 6%, 66%);
+  font-size: 26px;
+  border-radius: 5px;
+  padding: 10px 20px;
 `;
 
 export const FormHeader = styled.div`
-    width: 100%;
-    text-align: center;
-    font-size: 32px;
-    color: white;
-    text-shadow: 0.1em 0.1em 0.2em black;
-    font-weight: 600;
-    margin-bottom: 15px;
+  width: 100%;
+  text-align: center;
+  font-size: 32px;
+  color: white;
+  text-shadow: 0.1em 0.1em 0.2em black;
+  font-weight: 600;
+  margin-bottom: 15px;
 `;
 
 export const Label = styled.label`
-    color: white;
-    font-size: 20px;
-    font-weight: 200;
-    text-shadow: 0.1em 0.1em 0.2em black;
+  color: white;
+  font-size: 20px;
+  font-weight: 400;
+  text-shadow: 0.1em 0.1em 0.2em black;
+`;
+
+export const FormControl = styled.label`
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1.1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `;
 
 export const FormCheckbox = styled.input`
-    width: 35px;
-    height: 35px;
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: #fff;
+  margin: 0;
+  font: inherit;
+  width: 38px;
+  height: 38px;
+  border: 4px solid black;
+  border-radius: 5px;
+  transform: translateY(-0.075rem);
+  display: grid;
+  place-content: center;
+
+  &:before {
+    content: '';
+    width: 0.65em;
+    height: 0.65em;
+    transform: scale(0);
+    transition: 120ms transform ease-in-out;
+    box-shadow: inset 1em 1em var(--veryDarkBlue);
+
+    transform-origin: bottom left;
+    clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+  }
+
+  &:checked:before {
+    transform: scale(1);
+  }
 `;
 
 export const FormColor = styled.input`
-    width: 42px;
-    height: 42px;
-    border: 0px;
-    background: transparent;
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: #fff;
+  margin: 0;
+  font: inherit;
+  width: 38px;
+  height: 38px;
+  border: 4px solid black;
+  border-radius: 5px;
 `;
 
-
 export const SpecialHeader = styled.label`
-    color: white;
-    font-size: 20px;
-    font-weight: 200;
+  color: white;
+  font-size: 20px;
+  font-weight: 200;
 
-    text-shadow: 0.1em 0.1em 0.2em black;
+  text-shadow: 0.1em 0.1em 0.2em black;
 `;
 
 export const FormSpecial = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `;
 
 export const SubmitButton = styled.input`
-
   background-color: #111827;
   border: 1px solid transparent;
-  border-radius: .75rem;
+  border-radius: 0.75rem;
   box-sizing: border-box;
-  color: #FFFFFF;
+  color: #ffffff;
   cursor: pointer;
   flex: 0 0 auto;
   font-size: 1.125rem;
   font-weight: 600;
   line-height: 1.5rem;
-  padding: .75rem 1.2rem;
+  padding: 0.75rem 1.2rem;
   text-align: center;
-  text-decoration: none #6B7280 solid;
+  text-decoration: none #6b7280 solid;
   text-decoration-thickness: auto;
-  transition-duration: .2s;
-  transition-property: background-color,border-color,color,fill,stroke;
-  transition-timing-function: cubic-bezier(.4, 0, 0.2, 1);
+  transition-duration: 0.2s;
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
   width: 100%;
-    margin: 10px auto !important;
+  margin: 10px auto !important;
 `;

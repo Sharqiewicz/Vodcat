@@ -1,8 +1,5 @@
 import { Alcohol, Shot, Proportions } from '../types';
-
-function getRandomItemFromArray(array: any[]) {
-  return array[Math.floor(Math.random() * array.length)];
-}
+import { getRandomItemFromArray } from '../utils';
 
 export class ShotFactory {
   private capacity: number = 6;

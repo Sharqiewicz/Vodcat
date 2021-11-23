@@ -5,9 +5,13 @@ import { Item } from '../../components/Item/Item';
 import { Container, RouteButton } from '../../styles/elements';
 import { RootState } from '../../app/store';
 import { Alcohol } from '../../types';
+import { useValidation } from '../../hooks/useValidation';
 
 const ChoicePage = () => {
   const items: Alcohol[] = useSelector((state: RootState) => state.alcohol.items);
+  const isEmpty = useValidation({ dependency: items, defaultValue: false });
+
+  console.log(isEmpty);
   return (
     <NormalLayout>
       <Container>
@@ -15,7 +19,9 @@ const ChoicePage = () => {
           <Item {...item} />
         ))}
         <Form />
-        <RouteButton to="players">NEXT</RouteButton>
+        <RouteButton to="players" className={isEmpty ? 'disabled' : ''}>
+          NEXT
+        </RouteButton>
       </Container>
     </NormalLayout>
   );

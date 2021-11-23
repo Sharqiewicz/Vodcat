@@ -1,28 +1,27 @@
-import React from 'react';
-import { ItemContainer, ItemName, ItemPercentage, ItemColor, ItemStats, ItemBonus, ItemRemove } from './Item.styles';
+import * as S from './Item.styles';
 import { useDispatch } from 'react-redux';
 import { removeItem } from '../../storage/alcoholSlice';
+import { Alcohol } from '../../types/';
 
-export const Item = (props: any) => {
-  console.log(props);
+export const Item = (props: Alcohol) => {
+  const { name, percentage, color, bonus, id } = props;
   const dispatch = useDispatch();
 
   return (
-    <ItemContainer {...{ theme: { bonus: props.bonus, background: props.color } }}>
-      <ItemName>{props.name}</ItemName>
-      <ItemPercentage>{props.percentage}%</ItemPercentage>
-      <ItemStats>
-        <ItemColor color={props.color} />
-        <ItemBonus>{props.bonus && 'BONUS'}</ItemBonus>
-        <ItemRemove
+    <S.ItemContainer {...{ theme: { bonus, background: color } }}>
+      <S.ItemName>{name}</S.ItemName>
+      <S.ItemPercentage>{percentage}%</S.ItemPercentage>
+      <S.ItemStats>
+        <S.ItemColor color={color} />
+        <S.ItemBonus>{bonus && 'BONUS'}</S.ItemBonus>
+        <S.ItemRemove
           onClick={() => {
-            console.log('click');
-            dispatch(removeItem(props.id));
+            dispatch(removeItem(id));
           }}
         >
           X
-        </ItemRemove>
-      </ItemStats>
-    </ItemContainer>
+        </S.ItemRemove>
+      </S.ItemStats>
+    </S.ItemContainer>
   );
 };

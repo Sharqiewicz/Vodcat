@@ -2,8 +2,8 @@ import { Alcohol, Player, Shot, Turn } from '../types';
 import { ShotFactory } from './ShotFactory';
 
 export class Engine {
-  players!: Player[];
-  alcohols!: Alcohol[];
+  players: Player[];
+  alcohols: Alcohol[];
   isNewRound: boolean;
   private shotFactory: any;
   private currentPlayerIndex: number = 0;

@@ -62,7 +62,6 @@ export const playersSlice = createSlice({
       );
     },
     removePlayer: (state, action: { payload: string }) => {
-      console.log('action', action);
       state.list = state.list.filter((player) => player.id !== action.payload);
     },
   },
