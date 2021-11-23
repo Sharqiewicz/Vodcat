@@ -1,42 +1,44 @@
-import { useForm, SubmitHandler } from "react-hook-form";
-import { connect, useDispatch } from "react-redux";
-import { addItem } from "../../storage/alcoholSlice";
-import {FormField, FormHeader, Form, FormSpecial, FormCheckbox, SpecialHeader, Label, FormColor, SubmitButton} from './AlcoholForm.styles'
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { connect, useDispatch } from 'react-redux';
+import { addItem } from '../../storage/alcoholSlice';
+import * as S from './AlcoholForm.styles';
 
 type Inputs = {
-  percentage: string,
-  name: string,
-  color: string,
-  bonus: boolean,
+  percentage: string;
+  name: string;
+  color: string;
+  bonus: boolean;
 };
 
 const AlcoholForm = () => {
-  const { register, handleSubmit, reset} = useForm<Inputs>();
+  const { register, handleSubmit, reset } = useForm<Inputs>();
   const dispatch = useDispatch();
 
-  const onSubmit: SubmitHandler<Inputs> = data => {console.log(data);dispatch(addItem(data)); reset()}
-
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    dispatch(addItem(data));
+    reset();
+  };
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
-      <FormHeader>Add an alcohol </FormHeader>
+    <S.Form onSubmit={handleSubmit(onSubmit)}>
+      <S.FormHeader>Add an alcohol </S.FormHeader>
 
-      <Label>ALCOHOL NAME</Label>
-      <FormField type="text" {...register("name", { required: true })} />
+      <S.Label>ALCOHOL NAME</S.Label>
+      <S.FormField type="text" {...register('name', { required: true })} />
 
-      <Label>ALCOHOL PERCENTAGE</Label>
-      <FormField type="number"{...register("percentage", { required: true })} />
-      <FormSpecial>
-        <SpecialHeader>ALCOHOL COLOR</SpecialHeader>
-        <FormColor type="color" {...register("color", { required: true })} />
-      </FormSpecial>
-      <FormSpecial>
-        <SpecialHeader>IT IS A SPECIAL ALCOHOL?</SpecialHeader>
-        <FormCheckbox type="checkbox" {...register("bonus")} />
-      </FormSpecial>
-      <SubmitButton type="submit" value="ADD"/>
-    </Form>
+      <S.Label>ALCOHOL PERCENTAGE</S.Label>
+      <S.FormField type="number" {...register('percentage', { required: true })} />
+      <S.FormSpecial>
+        <S.SpecialHeader>ALCOHOL COLOR</S.SpecialHeader>
+        <S.FormColor type="color" {...register('color', { required: true })} />
+      </S.FormSpecial>
+      <S.FormControl>
+        <S.SpecialHeader>IT IS A SPECIAL ALCOHOL?</S.SpecialHeader>
+        <S.FormCheckbox type="checkbox" {...register('bonus')} />
+      </S.FormControl>
+      <S.SubmitButton type="submit" value="ADD" />
+    </S.Form>
   );
-}
+};
 
-export default connect()(AlcoholForm)
+export default connect()(AlcoholForm);

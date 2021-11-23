@@ -3,8 +3,8 @@
   --cyan: hsl(180, 62%, 55%);
   --orange: hsl(34, 97%, 64%);
   --blue: hsl(212, 86%, 64%);
-  --veryDarkBlue: hsl(234, 12%, 34%);
-  --grayishBlue: hsl(229, 6%, 66%);
+  --veryDarkBlue: #005f81;
+  --grayishBlue: hsl(234, 12%, 34%);
   --veryLightGray: hsl(0, 0%, 98%);
   --weight1: 200;
   --weight2: 400;
@@ -14,7 +14,7 @@
 body {
   margin: 0px !important;
   padding: 0px !important;
-  background: url('../assets/bg.svg');
+  background: #00b7cc;
   background-size: cover;
   font-family: 'Poppins', sans-serif;
 }
