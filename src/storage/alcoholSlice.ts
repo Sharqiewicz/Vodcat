@@ -6,7 +6,7 @@ import { getUniqueID } from '../utils';
 const defaultAlcohol: Alcohol[] = [
   { name: 'Kustosz Tequila', percentage: 6, color: 'yellow', bonus: true, id: '423n5k' },
   { name: 'Vodka', percentage: 40, color: 'white', bonus: false, id: '9b9dma' },
-  { name: 'Dębowe Mocne', percentage: 9, color: 'brown', bonus: false, id: 'ueue' },
+  { name: 'Dębowe Mocne', percentage: 8, color: 'brown', bonus: false, id: 'ueue' },
   { name: 'Woda z ogórków', percentage: 0, color: '#883aff', bonus: false, id: 'vsdigbf' },
 ];
 
