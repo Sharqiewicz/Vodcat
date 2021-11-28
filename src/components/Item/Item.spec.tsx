@@ -1,4 +1,4 @@
-import { Index } from './index';
+import { Item } from './index';
 import { Alcohol } from '../../types';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
@@ -16,7 +16,7 @@ describe('<Item/> shows proper elements', () => {
   it("If item has a bonus, display 'BONUS' text", async () => {
     const { getByText } = render(
       <Provider store={store}>
-        <Index {...itemWithBonus} />
+        <Item {...itemWithBonus} />
       </Provider>
     );
 

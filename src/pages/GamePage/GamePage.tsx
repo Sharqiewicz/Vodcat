@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../../app/store';
+import { RootState } from '../../storage/store';
 import { Engine } from '../../engine';
 import { Alcohol, Player, Turn } from '../../types';
 import { addPoints } from '../../storage/playersSlice';

@@ -3,7 +3,7 @@ import Form from '../../components/PlayersForm/PlayersForm';
 import { useSelector } from 'react-redux';
 import { PlayerCard } from '../../components/PlayerCard/PlayerCard';
 import { Container, RouteButton } from '../../styles/elements';
-import { RootState } from '../../app/store';
+import { RootState } from '../../storage/store';
 import { Player } from '../../types';
 import { useValidation } from '../../hooks/useValidation';
 

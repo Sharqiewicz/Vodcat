@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { RootState } from '../app/store';
+import { RootState } from '../storage/store';
 import { Player } from '../types';
 import { getUniqueID } from '../utils';
 

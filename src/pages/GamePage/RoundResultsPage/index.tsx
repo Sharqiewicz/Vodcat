@@ -2,7 +2,7 @@ import { NormalLayout } from '../../../layouts/NormalLayout';
 import { useSelector } from 'react-redux';
 import { PlayerCard } from '../../../components/PlayerCard/PlayerCard';
 import { Container } from '../../../styles/elements';
-import { RootState } from '../../../app/store';
+import { RootState } from '../../../storage/store';
 import { Player } from '../../../types';
 import { NormalButton } from '../../../styles/elements';
 
