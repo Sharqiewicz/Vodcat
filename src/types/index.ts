@@ -1,3 +1,5 @@
+//type Points = number & { readonly type: unique symbol };
+
 export type Player = {
   name: string;
   points: number;
