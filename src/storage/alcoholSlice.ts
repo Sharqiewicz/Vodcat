@@ -40,6 +40,6 @@ export const alcoholSlice = createSlice({
 
 export const { addItem, removeItem } = alcoholSlice.actions;
 
-export const selectItems = (state: RootState) => state.alcohol.items;
+export const getAlcohol = (state: RootState) => state.alcohol.items;
 
 export default alcoholSlice.reducer;
