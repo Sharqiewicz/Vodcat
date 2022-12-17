@@ -11,7 +11,7 @@ export const Container = styled.div`
 `;
 
 export const NormalButton = styled.button`
-  background-color: black;
+  background-color: #dd355b;
   border: 1px solid transparent;
   border-radius: 0.75rem;
   box-sizing: border-box;
@@ -30,7 +30,7 @@ export const NormalButton = styled.button`
 `;
 
 export const Button = styled(Link)`
-  background-color: black;
+  background-color: #dd355b;
   border: 1px solid transparent;
   border-radius: 0.75rem;
   box-sizing: border-box;
@@ -49,10 +49,10 @@ export const Button = styled(Link)`
 `;
 
 export const RouteButton = styled(Button)`
-  background-color: var(--orange);
+  background-color: #dd355b;
 
   &.disabled {
-    background-color: black !important;
+    background-color: #143d52 !important;
     color: transparent !important;
     pointer-events: none;
   }

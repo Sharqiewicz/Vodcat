@@ -23,17 +23,17 @@ const AlcoholForm = () => {
     <S.Form onSubmit={handleSubmit(onSubmit)}>
       <S.FormHeader>Add an alcohol </S.FormHeader>
 
-      <S.Label>ALCOHOL NAME</S.Label>
+      <S.Label>alcohol name</S.Label>
       <S.FormField type="text" {...register('name', { required: true })} />
 
-      <S.Label>ALCOHOL PERCENTAGE</S.Label>
+      <S.Label>alcohol percentage</S.Label>
       <S.FormField type="number" {...register('percentage', { required: true })} />
       <S.FormSpecial>
-        <S.SpecialHeader>ALCOHOL COLOR</S.SpecialHeader>
+        <S.SpecialHeader>alcohol color</S.SpecialHeader>
         <S.FormColor type="color" {...register('color', { required: true })} />
       </S.FormSpecial>
       <S.FormControl>
-        <S.SpecialHeader>IT IS A SPECIAL ALCOHOL?</S.SpecialHeader>
+        <S.SpecialHeader>double points?</S.SpecialHeader>
         <S.FormCheckbox type="checkbox" {...register('bonus')} />
       </S.FormControl>
       <S.SubmitButton type="submit" value="ADD" />

@@ -85,7 +85,7 @@ export const Empty = styled.div`
 `;
 
 export const Button = styled.button`
-  background-color: black;
+  background-color: #dd355b;
   border: 1px solid transparent;
   border-radius: 0.75rem;
   box-sizing: border-box;
@@ -108,3 +108,8 @@ export const Button = styled.button`
   width: 90%;
   margin: 10px 5%;
 `;
+
+export const ShotGlassContainer = styled.div`
+  width: 300px;
+  margin: auto;
+`

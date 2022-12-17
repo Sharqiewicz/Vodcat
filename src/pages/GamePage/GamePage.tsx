@@ -22,6 +22,7 @@ import {
   DoneMessage,
   DonePoints,
   PointsMessage,
+  ShotGlassContainer
 } from './GamePage.styles';
 
 function getScaleColor(points: number): string {
@@ -48,6 +49,8 @@ export default function DrinkPage() {
 
   const dispatch = useDispatch();
 
+  const [isFirstFreeDraw, setIsFirstFreeDraw] = useState(false);
+  const [isSkipped, setIsSkipped] = useState(false);
   const [isDrawed, setIsDrawed] = useState(false);
   const [isDone, setIsDone] = useState(false);
   const [isNewRound, setIsNewRound] = useState(true);
@@ -64,13 +67,17 @@ export default function DrinkPage() {
     setCurrentScaleColor(getScaleColor(newTurn.currentShot.points));
     setIsDrawed(false);
     setIsDone(false);
+    setIsSkipped(false)
+    setIsFirstFreeDraw(false)
   };
 
-  const handleGetAnotherShot = () => {
+  const handleGetAnotherShot = (pointsMinus: number) => {
+
+    setIsFirstFreeDraw(true)
     const newShot = game.getAnotherShot();
     setCurrentTurn({ ...currentTurn, currentShot: newShot });
     setCurrentScaleColor(getScaleColor(newShot.points));
-    dispatch(addPoints({ id: currentTurn.currentPlayer.id, points: -2 }));
+    dispatch(addPoints({ id: currentTurn.currentPlayer.id, points: -pointsMinus }));
   };
 
   const handleDone = (): void => {
@@ -83,6 +90,16 @@ export default function DrinkPage() {
     dispatch(addPoints(done));
     setIsDone(true);
   };
+
+  const skipShot = () =>{
+    setNowPlayer(players.find((player) => player.id === currentTurn.currentPlayer.id));
+    dispatch(addPoints({
+      id: currentTurn.currentPlayer.id,
+      points: -6
+    }));
+    setIsSkipped(true)
+    setIsDone(true);
+  }
 
   console.log('isNewRound');
   console.log(isNewRound);
@@ -103,13 +120,14 @@ export default function DrinkPage() {
             </PlayerStats>
             {isDone ? (
               <DonePopup>
-                <DoneMessage>
+                {isSkipped ? <DoneMessage>You loser, you've disappointed me </DoneMessage> : <DoneMessage>
                   YOU HAVE DRUNK <DonePoints theme={currentScaleColor}>+ {currentTurn.currentShot.points}</DonePoints>{' '}
                   POINTS
-                </DoneMessage>
+                </DoneMessage>}
               </DonePopup>
             ) : (
-              <ShotGlass>
+              <ShotGlassContainer >
+                <ShotGlass>
                 <AlcoholContainer>
                   {isDrawed ? (
                     currentTurn.currentShot.proportions.map((proportion, index) => (
@@ -124,6 +142,7 @@ export default function DrinkPage() {
                   )}
                 </AlcoholContainer>
               </ShotGlass>
+              </ShotGlassContainer>
             )}
             {isDrawed ? (
               isDone ? (
@@ -134,7 +153,10 @@ export default function DrinkPage() {
                     Shot points: <DonePoints theme={currentScaleColor}>+ {currentTurn.currentShot.points}</DonePoints>
                   </PointsMessage>
                   <Button onClick={handleDone}>DONE</Button>
-                  <Button onClick={handleGetAnotherShot}>DRAW ANOTHER (-2POINTS)</Button>
+                  {isFirstFreeDraw ? (
+                    <Button onClick={() => handleGetAnotherShot(2)}>DRAW ANOTHER (-2POINTS)</Button>
+                  ): <Button onClick={() => handleGetAnotherShot(0)}>DRAW ANOTHER (-0 POINTS - FIRST TRY)</Button>}
+                  <Button onClick={skipShot}>SKIP (-6POINTS)</Button>
                 </>
               )
             ) : (

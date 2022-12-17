@@ -1,41 +1,39 @@
 import styled from 'styled-components';
 
 export const Form = styled.form`
-  background: rgba(0, 0, 0, 0.4);
-  padding: 10px 25px;
-  border-radius: 5px;
+  background: black;
+  padding: 20px 25px;
+  border-radius: 15px;
 `;
 
 export const FormField = styled.input`
   width: 90%;
   border: 0px;
   margin: 10px auto !important;
-  box-shadow: 0px 30px 40px -20px hsl(229, 6%, 66%);
   font-size: 26px;
   border-radius: 5px;
   padding: 10px 20px;
+  color: white;
+  background-color: #212239;
 `;
 
 export const FormHeader = styled.div`
   width: 100%;
-  text-align: center;
-  font-size: 32px;
+  font-size: 26px;
   color: white;
-  text-shadow: 0.1em 0.1em 0.2em black;
   font-weight: 600;
   margin-bottom: 15px;
 `;
 
 export const Label = styled.label`
-  color: white;
-  font-size: 20px;
-  font-weight: 400;
-  text-shadow: 0.1em 0.1em 0.2em black;
+  color: #666893;
+  font-size: 16px;
+  font-weight: 600;
 `;
 
 export const FormControl = styled.label`
   font-size: 2rem;
-  font-weight: 600;
+  font-weight: 400;
   line-height: 1.1;
   display: flex;
   align-items: center;
@@ -45,7 +43,7 @@ export const FormControl = styled.label`
 export const FormCheckbox = styled.input`
   -webkit-appearance: none;
   appearance: none;
-  background-color: #fff;
+  background-color: #212239;
   margin: 0;
   font: inherit;
   width: 38px;
@@ -86,8 +84,9 @@ export const FormColor = styled.input`
 `;
 
 export const SpecialHeader = styled.label`
-  color: white;
-  font-size: 20px;
+    color: #666893;
+  font-size: 16px;
+  font-weight: 600;
   font-weight: 200;
 
   text-shadow: 0.1em 0.1em 0.2em black;
@@ -100,7 +99,7 @@ export const FormSpecial = styled.div`
 `;
 
 export const SubmitButton = styled.input`
-  background-color: #111827;
+  background-color: #883aff;
   border: 1px solid transparent;
   border-radius: 0.75rem;
   box-sizing: border-box;
