@@ -4,7 +4,7 @@ import { PlayerCard } from '../../../components/PlayerCard/PlayerCard';
 import { Container } from '../../../styles/elements';
 import { RootState } from '../../../storage/store';
 import { Player } from '../../../types';
-import { NormalButton } from '../../../styles/elements';
+import { NormalButton, RouteButton } from '../../../styles/elements';
 
 const compare = (a: Player, b: Player) => {
   return b.points - a.points;
@@ -13,6 +13,7 @@ const compare = (a: Player, b: Player) => {
 const Index = (props: any) => {
   const players: Player[] = useSelector((state: RootState) => state.players.list);
   const playersCopy = [...players];
+
   return (
     <NormalLayout>
       <Container>
@@ -20,6 +21,10 @@ const Index = (props: any) => {
           <PlayerCard {...player} withPoints={true} />
         ))}
         <NormalButton onClick={() => props.setIsNewRound(false)}>NEXT ROUND</NormalButton>
+
+        <RouteButton to="/finish">
+          FINISH GAME
+        </RouteButton>
       </Container>
     </NormalLayout>
   );
