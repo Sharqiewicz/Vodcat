@@ -97,9 +97,9 @@ export const GameCenter = (props: any) => {
             setBonusShot(currentTurn.currentPlayer.shotCache[0] as Shot)
             dispatch(clearShot({ id: currentTurn.currentPlayer.id}))
           }
-    }, [
-        currentTurn.isNewRound
-    ])
+    }, 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [ currentTurn.isNewRound])
 
     const handleGetAnotherShot = (pointsMinus: number) => {
 

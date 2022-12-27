@@ -1,4 +1,4 @@
-import { Player, Shot } from '../../../../../types';
+import { Shot } from '../../../../../types';
 
 import {
     DonePopup,
