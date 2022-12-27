@@ -8,6 +8,7 @@ const defaultAlcohol: Alcohol[] = [
   { name: 'Vodka', percentage: 40, color: 'white', bonus: false, id: '9b9dma' },
   { name: 'Dębowe Mocne', percentage: 8, color: 'brown', bonus: false, id: 'ueue' },
   { name: 'Woda z ogórków', percentage: 0, color: '#883aff', bonus: false, id: 'vsdigbf' },
+  { name: 'Skurvolanska', percentage: 7, color: '#3fda31', bonus: true, id: 'fdfdswws' },
 ];
 
 export interface AlcoholState {

@@ -10,15 +10,15 @@ export const PlayerCard = (props: PlayerCardProps) => {
 
   const dispatch = useDispatch();
 
-  const content = <><Name>{name}</Name>
-  {withPoints ? <Name>{points}</Name> : null}
+  const content = <>
+  <Name>{name}</Name> { withPoints ? <Name>{points}</Name> : null}
   <PlayerRemove
     onClick={() => {
       dispatch(removePlayer(id));
     }}
   >
     X
-  </PlayerRemove></>
+  </PlayerRemove> </>
 
   if(props.isFirst){
     return <GoldContainer>{content}</GoldContainer>
@@ -35,6 +35,7 @@ export const PlayerCard = (props: PlayerCardProps) => {
   return (
     <Container>
       {content}
+
     </Container>
   )
 };

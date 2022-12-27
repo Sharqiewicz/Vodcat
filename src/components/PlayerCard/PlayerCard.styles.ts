@@ -64,5 +64,8 @@ export const Name = styled.div`
 `;
 
 export const PlayerRemove = styled.div`
-  display: none;
+background-color: red;
+color: white;
+padding: 5px 12px;
+border-radius: 100%;
 `;

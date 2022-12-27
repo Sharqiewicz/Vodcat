@@ -34,6 +34,7 @@ export class Engine {
     } else {
       this.isNewRound = false;
     }
+
     return {
       isNewRound,
       currentPlayer: this.players[this.currentPlayerIndex],
