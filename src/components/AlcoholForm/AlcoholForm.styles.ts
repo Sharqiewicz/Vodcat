@@ -4,6 +4,13 @@ export const Form = styled.form`
   background: black;
   padding: 20px 25px;
   border-radius: 15px;
+
+  transition: 0.5s;
+
+  &:hover{
+    transform: scale(1.2);
+    cursor: pointer;
+  }
 `;
 
 export const FormField = styled.input`

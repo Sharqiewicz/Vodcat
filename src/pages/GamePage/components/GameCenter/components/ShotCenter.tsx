@@ -20,6 +20,7 @@ export const ShotCenter: React.FC<ShotCenterProps> = ({isShotDrawn, currentTurnS
     const renderBonusShot = () => (
         bonusShot!.proportions.map((proportion, index) => (
             <ShotAlcohol
+                bonus={bonusShot!.alcohol[index].bonus}
                 proportion={proportion}
                 alcohol={bonusShot!.alcohol[index].name}
                 color={bonusShot!.alcohol[index].color}
@@ -30,21 +31,13 @@ export const ShotCenter: React.FC<ShotCenterProps> = ({isShotDrawn, currentTurnS
     const renderCurrentShot = () => (
         currentTurnShot.proportions.map((proportion, index) => (
             <ShotAlcohol
+                bonus={currentTurnShot.alcohol[index].bonus}
                 proportion={proportion}
                 alcohol={currentTurnShot.alcohol[index].name}
                 color={currentTurnShot.alcohol[index].color}
             />
         ))
     )
-
-    console.log('bonusShot')
-    console.log(bonusShot)
-
-    console.log('bonusShotDone')
-    console.log(bonusShotDone)
-
-    console.log('bonusShot && !bonusShotDone')
-    console.log(bonusShot && !bonusShotDone)
 
     return (
         <ShotGlassContainer >

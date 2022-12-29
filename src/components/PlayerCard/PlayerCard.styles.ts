@@ -12,6 +12,12 @@ export const Container = styled.div`
   border-top: 10px solid var(--veryDarkBlue);
 
   color: ${(props) => (props.theme.bonus ? 'white' : 'var(--veryDarkBlue)')};
+
+  transition: 0.5s;
+  &:hover{
+    transform: scale(1.2);
+    cursor: pointer;
+  }
 `;
 
 export const GoldContainer = styled.div`
@@ -26,6 +32,11 @@ align-items: space-between;
 border-radius: 5px;
 padding: 10px;
 border-top: 10px solid #a17f1a;
+transition: 0.5s;
+&:hover{
+  transform: scale(1.2);
+  cursor: pointer;
+}
 `
 
 export const SilverContainer = styled.div`
@@ -40,6 +51,11 @@ align-items: space-between;
 border-radius: 5px;
 padding: 10px;
 border-top: 10px solid #AFAFAF;
+transition: 0.5s;
+&:hover{
+  transform: scale(1.2);
+  cursor: pointer;
+}
 `
 
 export const BrownContainer = styled.div`
@@ -54,6 +70,12 @@ align-items: space-between;
 border-radius: 5px;
 padding: 10px;
 border-top: 10px solid #5C4033;
+
+transition: 0.5s;
+&:hover{
+  transform: scale(1.2);
+  cursor: pointer;
+}
 `
 
 export const Name = styled.div`

@@ -11,8 +11,14 @@ export const ItemContainer = styled.div`
   border-radius: 5px;
   padding: 10px;
   border-top: 8px solid ${(props) => props.theme.background};
+  transition: 0.5s;
 
   color: ${(props) => (props.theme.bonus ? 'white' : 'var(--veryDarkBlue)')};
+
+  &:hover{
+    transform: scale(1.2);
+    cursor: pointer;
+  }
 `;
 
 export const ItemName = styled.div`

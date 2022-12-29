@@ -8,7 +8,7 @@ export const Item = (props: ItemProps) => {
 
   return (
     <S.ItemContainer {...{ theme: { bonus, background: color } }} key={id}>
-      <S.ItemName>{name}</S.ItemName>
+      <S.ItemName>{bonus && '⭐'} {name}</S.ItemName>
       <S.ItemPercentage>{percentage}%</S.ItemPercentage>
       <S.ItemStats>
         <S.ItemColor color={color} />

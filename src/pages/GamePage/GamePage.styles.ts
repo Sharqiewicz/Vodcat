@@ -1,5 +1,9 @@
 import styled from 'styled-components';
 
+
+export const CenterContainer = styled.div`
+`;
+
 export const PlayerStats = styled.div`
   width: 100%;
   background: rgba(0, 0, 0, 0.5);
@@ -37,19 +41,34 @@ export const ShotGlass = styled.div`
   max-width: 600px !important;
 `;
 
-export const DonePopup = styled.div`
-  background: rgba(0, 0, 0, 0.4);
-  width: calc(100% - 100px);
-  margin-top: 10vh;
+export const PopupTitle = styled.h1`
+font-size: 72px;
+width: 100%;
+text-align: center;
+margin: 0;
+`
+
+export const DonePopupMock = styled.div`
   height: 70vh;
+  width: 100%;
+`
+
+export const DonePopup = styled.div`
+  background: rgba(0, 0, 0, 0.9);
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0 50px;
+  flex-direction: column;
 `;
 
 export const PointsMessage = styled.div`
-  font-size: 26px;
+  font-size: 64px;
   font-weight: 600;
   color: white;
   text-shadow: 0.1em 0.1em 0.2em black;
@@ -85,6 +104,8 @@ export const Empty = styled.div`
 `;
 
 export const Button = styled.button`
+position: relative;
+z-index: 999;
   background-color: #dd355b;
   border: 1px solid transparent;
   border-radius: 0.75rem;

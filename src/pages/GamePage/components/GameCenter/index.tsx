@@ -13,6 +13,9 @@ import { ButtonsCenter } from './components/ButtonsCenter'
 import { POINTS_FOR_GIVING_DRINK_TO_ANOTHER_PLAYER, POINTS_FOR_GIVING_UP, DEFAULT_RELOAD_SHOTS } from '../../utils/consts'
 import { PopupsCenter } from './components/PopupsCenter';
 
+import {
+  CenterContainer
+} from '../../GamePage.styles';
 
 function getScaleColor(points: number): string {
   if (points < 10) {
@@ -97,7 +100,7 @@ export const GameCenter = (props: any) => {
             setBonusShot(currentTurn.currentPlayer.shotCache[0] as Shot)
             dispatch(clearShot({ id: currentTurn.currentPlayer.id}))
           }
-    }, 
+    },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [ currentTurn.isNewRound])
 
@@ -160,9 +163,7 @@ export const GameCenter = (props: any) => {
         setIsGiveShotToAnotherPlayer(value)
     }
 
-    console.log('bonusShot outer', bonusShot)
     const renderGame = () => {
-        console.log('bonusShot', bonusShot)
         return (
             <>
                 <ShotCenter {...{ bonusShot, currentTurnShot: currentTurn.currentShot, isShotDrawn, bonusShotDone }} />
@@ -175,8 +176,10 @@ export const GameCenter = (props: any) => {
     return (
         <>
             <PlayerStatsCenter {...{ wasShotGiven, bonusShot, currentTurnShot: currentTurn.currentShot, currentTurnPlayer: currentTurn.currentPlayer, isTurnDone, reloadedShots }}  />
-            { isTurnDone ? <PopupsCenter {...{currentScaleColor, currentShotTurn: currentTurn.currentShot, isShotSkipped, wasShotGiven, bonusShot }}/> : renderGame() }
-            <ButtonsCenter {...{ bonusShotDone, setisShotDrawn, currentTurnPlayer: currentTurn.currentPlayer, currentTurnShot: currentTurn.currentShot, drinkBonusShot, giveShot, giveShotToAnotherPlayer, handleGetAnotherShot, handleGetRandomShot, handleTurnDone, isFirstFreeShowDrawn, isGiveShotToAnotherPlayer, isShotDrawn, isTurnDone, players, reloadedShots, skipShot, bonusShot,  }}  />
+            <CenterContainer>
+              { isTurnDone ? <PopupsCenter {...{currentScaleColor, currentShotTurn: currentTurn.currentShot, isShotSkipped, wasShotGiven, bonusShot }}/> : renderGame() }
+              <ButtonsCenter {...{ bonusShotDone, setisShotDrawn, currentTurnPlayer: currentTurn.currentPlayer, currentTurnShot: currentTurn.currentShot, drinkBonusShot, giveShot, giveShotToAnotherPlayer, handleGetAnotherShot, handleGetRandomShot, handleTurnDone, isFirstFreeShowDrawn, isGiveShotToAnotherPlayer, isShotDrawn, isTurnDone, players, reloadedShots, skipShot, bonusShot,  }}  />
+            </CenterContainer>
         </>
     )
 }
