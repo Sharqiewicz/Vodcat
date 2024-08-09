@@ -1,33 +1,37 @@
-import { Alcohol, Player, Shot, Turn } from '../types';
+import { Alcohol, Player, Proportions, Shot, Turn } from '../types';
 import { ShotFactory } from './ShotFactory';
 
 export class Engine {
-  players: Player[];
-  alcohols: Alcohol[];
   isNewRound: boolean;
   private shotFactory: any;
   private currentPlayerIndex: number = 0;
 
-  constructor(players: Player[], alcohols: Alcohol[]) {
-    this.players = players;
-    this.alcohols = alcohols;
-    this.shotFactory = new ShotFactory(alcohols);
-    this.isNewRound = true;
-  }
+  currentAlcohols: Alcohol[] = [];
+  currentCapacities: Proportions[] = [];
+  currentShot: Shot | undefined = undefined;
 
-  private getRandomShot(): Shot {
-    return this.shotFactory.getRandomShot();
+  constructor() {
+    this.shotFactory = new ShotFactory();
+    this.isNewRound = true;
   }
 
   private setNewCurrentPlayerIndex(index: number) {
     this.currentPlayerIndex = index;
   }
 
-  playTurn(): Turn {
+  startGame(players: Player[]): Turn {
+    return {
+      isNewRound: true,
+      currentPlayer: players[this.currentPlayerIndex],
+      currentShot: undefined,
+    };
+  }
+
+  playTurn(players: Player[]): Turn {
     this.setNewCurrentPlayerIndex(this.currentPlayerIndex + 1);
 
     let isNewRound = false;
-    if (this.currentPlayerIndex >= this.players.length) {
+    if (this.currentPlayerIndex >= players.length) {
       this.currentPlayerIndex = 0;
       this.isNewRound = true;
       isNewRound = true;
@@ -37,21 +41,21 @@ export class Engine {
 
     return {
       isNewRound,
-      currentPlayer: this.players[this.currentPlayerIndex],
-      currentShot: this.getRandomShot(),
+      currentPlayer: players[this.currentPlayerIndex],
+      currentShot: undefined,
     };
   }
 
-  getAnotherShot(): Shot {
-    return this.getRandomShot();
-  }
+  prepareShot(alcohols: Alcohol[]): boolean | Shot {
+    if (!this.currentCapacities.length) {
+      this.currentCapacities = this.shotFactory.getRandomCapacities();
+    }
 
-  startGame(): Turn {
-    this.isNewRound = false;
-    return {
-      isNewRound: false,
-      currentPlayer: this.players[this.currentPlayerIndex],
-      currentShot: this.getRandomShot(),
-    };
+    if (alcohols.length === this.currentCapacities.length) {
+      const shot = this.shotFactory.getRandomShot(this.currentCapacities, alcohols) as Shot;
+      return shot;
+    }
+
+    return false;
   }
 }

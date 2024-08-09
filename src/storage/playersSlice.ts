@@ -8,7 +8,19 @@ const defaultState: Player[] = [
     name: 'Stefan',
     points: 0,
     id: '78928242',
-    shotCache: []
+    shotCache: [],
+  },
+  {
+    name: 'Paweł',
+    points: 0,
+    id: '78928243',
+    shotCache: [],
+  },
+  {
+    name: 'Kacper',
+    points: 0,
+    id: '78928245',
+    shotCache: [],
   },
 ];
 
@@ -28,6 +40,7 @@ export const playersSlice = createSlice({
       state.list.push({ name: action.payload, points: 0, id: getUniqueID(), shotCache: [] });
     },
     addPoints: (state, action: { payload: { id: string; points: number } }) => {
+      console.log('add points to player', action.payload.id, action.payload.points);
       state.list = state.list.map((player) =>
         player.id === action.payload.id ? { ...player, points: player.points + action.payload.points } : player
       );
@@ -35,22 +48,21 @@ export const playersSlice = createSlice({
     removePlayer: (state, action: { payload: string }) => {
       state.list = state.list.filter((player) => player.id !== action.payload);
     },
-    addShotToCache: (state, action: { payload: { id: string, shot: Shot}}) => {
-
-      state.list = state.list.map((player) => player.id === action.payload.id ? { ...player, shotCache: [action.payload.shot] } : player
+    addShotToCache: (state, action: { payload: { id: string; shot: Shot } }) => {
+      state.list = state.list.map((player) =>
+        player.id === action.payload.id ? { ...player, shotCache: [action.payload.shot] } : player
       );
     },
-    clearShot: (state, action: { payload: { id: string}}) => {
+    clearShot: (state, action: { payload: { id: string } }) => {
       state.list = state.list.map((player) =>
         player.id === action.payload.id ? { ...player, shotCache: [] } : player
       );
-    }
+    },
   },
 });
 
 export const { addPlayer, removePlayer, addPoints, addShotToCache, clearShot } = playersSlice.actions;
 
 export const selectPlayers = (state: RootState) => state.players.list;
-
 
 export default playersSlice.reducer;

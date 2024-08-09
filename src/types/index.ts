@@ -4,7 +4,7 @@ export type Player = {
   name: string;
   points: number;
   id: string;
-  shotCache: Shot[]
+  shotCache: Shot[];
 };
 
 export type Alcohol = {
@@ -30,10 +30,14 @@ export type Game = {
 
   players: Player[];
   alcohols: Alcohol[];
+
+  startGame: (players: Player[]) => Turn;
+  playTurn: (players: Player[]) => Turn;
+  prepareShot: (alcohols: Alcohol[]) => boolean;
 };
 
 export type Turn = {
   isNewRound: boolean;
   currentPlayer: Player;
-  currentShot: Shot;
+  currentShot?: Shot;
 };

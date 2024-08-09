@@ -1,185 +1,201 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useMemo, useEffect, useReducer } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../../../storage/store';
 import { Engine } from '../../../../engine';
-import { Alcohol, Player, Turn, Shot } from '../../../../types';
-import { addPoints, addShotToCache , clearShot} from '../../../../storage/playersSlice';
+import { Player, Turn, Shot, Game } from '../../../../types';
+import { addPoints } from '../../../../storage/playersSlice';
 
-import { PointsCenter } from './components/PointsCenter'
-import { ShotCenter } from './components/ShotCenter'
-import { PlayerStatsCenter } from './components/PlayerStatsCenter'
-import { ButtonsCenter } from './components/ButtonsCenter'
-
-import { POINTS_FOR_GIVING_DRINK_TO_ANOTHER_PLAYER, POINTS_FOR_GIVING_UP, DEFAULT_RELOAD_SHOTS } from '../../utils/consts'
+import { PointsCenter } from './components/PointsCenter';
+import { ShotCenter } from './components/ShotCenter';
+import { PlayerStatsCenter } from './components/PlayerStatsCenter';
+import { ButtonsCenter } from './components/ButtonsCenter';
 import { PopupsCenter } from './components/PopupsCenter';
 
-import {
-  CenterContainer
-} from '../../GamePage.styles';
+import { POINTS_FOR_GIVING_UP } from '../../utils/consts';
+import RoulettePage from '../../../RoulettePage';
+import { getScaleColor } from './helpers';
 
-function getScaleColor(points: number): string {
-  if (points < 10) {
-    return '#90be6d';
-  }
-  if (points < 18) {
-    return '#f9c74f';
-  }
-  if (points < 24) {
-    return '#f9844a';
-  }
-  if (points < 32) {
-    return '#f3722c';
-  }
-  return '#f94144';
+enum State {
+  Initializing,
+  PlayingTurn,
+  TurnDone,
+  Ended,
 }
+
+enum Event {
+  Initialize,
+  ShotIsPrepared,
+  TurnDone,
+  SkipShot,
+  ResetTurn,
+}
+
+type StateSchema = {
+  state: State;
+  isShotSkipped: boolean;
+  currentTurn?: Turn;
+};
+
+type Action = {
+  type: Event;
+  payload?: any;
+};
+
+const initialState: StateSchema = {
+  state: State.Initializing,
+  currentTurn: undefined,
+  isShotSkipped: false,
+};
+
+// Manage to show proper UI for Engine state
+const reducer = (state: StateSchema, action: Action): StateSchema => {
+  switch (state.state) {
+    case State.Initializing:
+      if (action.type === Event.Initialize) {
+        return { ...state, state: State.PlayingTurn, currentTurn: action.payload };
+      }
+      break;
+    case State.PlayingTurn:
+      if (action.type === Event.ShotIsPrepared) {
+        return {
+          ...state,
+          state: State.PlayingTurn,
+          currentTurn: { ...(state.currentTurn as Turn), currentShot: action.payload },
+        };
+      }
+      if (action.type === Event.SkipShot) {
+        return { ...state, state: State.TurnDone, isShotSkipped: true };
+      }
+      if (action.type === Event.TurnDone) {
+        return { ...state, state: State.TurnDone };
+      }
+      break;
+    case State.TurnDone:
+      if (action.type === Event.ResetTurn) {
+        return initialState;
+      }
+      break;
+    default:
+      return state;
+  }
+  return state;
+};
 
 export const GameCenter = (props: any) => {
+  // ARE YOU SURE YOU WANT TO LEAVE POPUP
+  useEffect(() => {
+    window.onbeforeunload = function () {
+      return true;
+    };
+    return () => {
+      window.onbeforeunload = null;
+    };
+  }, []);
 
-    const alcohols: Alcohol[] = useSelector((state: RootState) => state.alcohol.items);
-    const players: Player[] = useSelector((state: RootState) => state.players.list);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    const game = useMemo(() => new Engine(players, alcohols), []);
+  const players: Player[] = useSelector((state: RootState) => state.players.list);
 
-    const dispatch = useDispatch();
+  const game = useMemo(() => new Engine() as unknown as Game, []);
 
-    const [reloadedShots, setReloadedShots] = useState(DEFAULT_RELOAD_SHOTS);
-    const [bonusShotDone, setBonusShotDone] = useState<boolean>(false);
-    const [bonusShot, setBonusShot] = useState<Shot>();
-    const [isGiveShotToAnotherPlayer, setIsGiveShotToAnotherPlayer] = useState(false);
-    const [wasShotGiven, setWasShotGiven] = useState(false);
-    const [isFirstFreeShowDrawn, setIsFirstFreeShowDrawn] = useState(false);
-    const [isShotSkipped, setIsShotSkipped] = useState(false);
-    const [isShotDrawn, setisShotDrawn] = useState(false);
-    const [isTurnDone, setisTurnDone] = useState(false);
-    const [currentTurn, setCurrentTurn] = useState<Turn>(game.startGame());
-    const [currentScaleColor, setCurrentScaleColor] = useState(getScaleColor(currentTurn.currentShot.points || bonusShot?.points || 0));
-    // const [nowPlayer, setNowPlayer] = useState(players.find((player) => player.id === currentTurn.currentPlayer.id));
+  const dispatch = useDispatch();
+  const [state, localDispatch] = useReducer(reducer, initialState);
 
-    const resetGameVariables = () => {
-        console.log('reset game variables')
-      setisShotDrawn(false);
-      setisTurnDone(false);
-      setIsShotSkipped(false)
-      setIsGiveShotToAnotherPlayer(false)
-      setIsFirstFreeShowDrawn(false)
-      setWasShotGiven(false)
-      setBonusShotDone(false)
-      setBonusShot(undefined)
-      setReloadedShots(DEFAULT_RELOAD_SHOTS)
-    }
+  useEffect(() => {
+    localDispatch({ type: Event.Initialize, payload: game.startGame(players) });
+  }, []);
 
-    const handleGetRandomShot = (): void => {
-      const newTurn = game.playTurn();
-      resetGameVariables()
-      setCurrentTurn(newTurn);
-      props.setIsNewRound(newTurn.isNewRound);
-      const player = players.find((player) => player.id === newTurn.currentPlayer.id)
-      setCurrentScaleColor(getScaleColor(newTurn.currentShot.points));
+  const resetTurnVariables = () => {
+    localDispatch({ type: Event.ResetTurn });
+  };
 
-      if(!newTurn.isNewRound && player?.shotCache.length){
-        console.log('player')
-        console.log(player)
-        console.log('player.shotCache')
-        console.log(player?.shotCache);
-        console.log('player.shotCache[0]');
-        console.log(player.shotCache[0]);
-        setBonusShot(player.shotCache[0] as Shot)
-        dispatch(clearShot({ id: player.id}))
-      }
+  const handleEndTurn = () => {
+    resetTurnVariables();
+    localDispatch({ type: Event.ResetTurn });
+    const newTurn = game.playTurn(players);
+    props.setIsNewRound(newTurn.isNewRound);
+    localDispatch({ type: Event.Initialize, payload: newTurn });
+  };
+
+  const handleTurnDone = (): void => {
+    if (!state.currentTurn) return;
+    if (!state.currentTurn?.currentShot) return;
+
+    const turnSummary = {
+      id: state.currentTurn.currentPlayer.id,
+      points: state.currentTurn.currentShot.points,
     };
 
+    dispatch(addPoints(turnSummary));
+    localDispatch({ type: Event.TurnDone });
+  };
 
-    useEffect(()=>{
-        if(!currentTurn.isNewRound && currentTurn.currentPlayer?.shotCache.length){
-            console.log('currentTurn.currentPlayer')
-            console.log(currentTurn.currentPlayer)
-            console.log('currentTurn.currentPlayer.shotCache')
-            console.log(currentTurn.currentPlayer?.shotCache);
-            console.log('currentTurn.currentPlayer.shotCache[0]');
-            console.log(currentTurn.currentPlayer.shotCache[0]);
-            setBonusShot(currentTurn.currentPlayer.shotCache[0] as Shot)
-            dispatch(clearShot({ id: currentTurn.currentPlayer.id}))
-          }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [ currentTurn.isNewRound])
+  const skipShot = () => {
+    if (!state.currentTurn) return;
+    if (!state.currentTurn?.currentShot) return;
 
-    const handleGetAnotherShot = (pointsMinus: number) => {
+    dispatch(
+      addPoints({
+        id: state.currentTurn.currentPlayer.id,
+        points: POINTS_FOR_GIVING_UP,
+      })
+    );
 
-      setIsFirstFreeShowDrawn(true)
+    localDispatch({ type: Event.SkipShot });
+  };
 
-      const newShot = game.getAnotherShot();
-      setCurrentTurn({ ...currentTurn, currentShot: newShot });
-      setCurrentScaleColor(getScaleColor(newShot.points));
+  console.log(state);
 
-      setReloadedShots(state => state + 1)
+  const renderShotNotPrepared = () =>
+    !state.currentTurn?.currentShot && (
+      <RoulettePage
+        game={game}
+        setIsShotPrepared={(payload: Shot) => localDispatch({ type: Event.ShotIsPrepared, payload })}
+      />
+    );
 
-      dispatch(addPoints({ id: currentTurn.currentPlayer.id, points: -pointsMinus }));
-    };
+  const renderShotIsPrepared = () =>
+    state.currentTurn?.currentShot && (
+      <>
+        <ShotCenter {...{ currentTurnShot: state.currentTurn?.currentShot }} />
+        <PointsCenter {...{ currentTurnShot: state.currentTurn?.currentShot, currentScaleColor: 'red' }} />
+      </>
+    );
 
-    const handleTurnDone = (): void => {
-      const done = {
-        id: currentTurn.currentPlayer.id,
-        points: currentTurn.currentShot.points,
-      };
-      dispatch(addPoints(done));
-      setisTurnDone(true);
-    };
+  const renderTurnIsDone = () =>
+    state.state === State.TurnDone && (
+      <PopupsCenter
+        {...{
+          currentScaleColor: 'red',
+          currentShotTurn: state.currentTurn?.currentShot,
+          isShotSkipped: state.isShotSkipped,
+        }}
+      />
+    );
 
-    const skipShot = () =>{
-      dispatch(addPoints({
-        id: currentTurn.currentPlayer.id,
-        points: POINTS_FOR_GIVING_UP
-      }));
-      setIsShotSkipped(true);
-      setisTurnDone(true);
-    }
+  const renderButtonsCenter = () =>
+    state.currentTurn?.currentShot && (
+      <ButtonsCenter
+        {...{
+          handleTurnDone,
+          handleEndTurn,
+          skipShot,
+          isTurnDone: state.state === State.TurnDone,
+        }}
+      />
+    );
 
-    const drinkBonusShot = () => {
-      const done = {
-        id: currentTurn.currentPlayer.id,
-        points: bonusShot!.points,
-      };
-      dispatch(addPoints(done));
-      setBonusShotDone(true)
-    }
-
-    const giveShot = (playerId: string) => {
-      const done = {
-        id: currentTurn.currentPlayer.id,
-        points: POINTS_FOR_GIVING_DRINK_TO_ANOTHER_PLAYER,
-      };
-      dispatch(addPoints(done));
-
-      const currentShot = currentTurn.currentShot;
-      dispatch(addShotToCache({id: playerId, shot: currentShot}));
-      setIsGiveShotToAnotherPlayer(false);
-      setWasShotGiven(true);
-      setisTurnDone(true);
-    }
-
-
-    const giveShotToAnotherPlayer = (value: boolean) => {
-        setIsGiveShotToAnotherPlayer(value)
-    }
-
-    const renderGame = () => {
-        return (
-            <>
-                <ShotCenter {...{ bonusShot, currentTurnShot: currentTurn.currentShot, isShotDrawn, bonusShotDone }} />
-                <PointsCenter {...{ bonusShot, currentTurnShot: currentTurn.currentShot, bonusShotDone, currentScaleColor, isShotDrawn }} />
-            </>
-        )
-    }
-
-
-    return (
-        <>
-            <PlayerStatsCenter {...{ wasShotGiven, bonusShot, currentTurnShot: currentTurn.currentShot, currentTurnPlayer: currentTurn.currentPlayer, isTurnDone, reloadedShots }}  />
-            <CenterContainer>
-              { isTurnDone ? <PopupsCenter {...{currentScaleColor, currentShotTurn: currentTurn.currentShot, isShotSkipped, wasShotGiven, bonusShot }}/> : renderGame() }
-              <ButtonsCenter {...{ bonusShotDone, setisShotDrawn, currentTurnPlayer: currentTurn.currentPlayer, currentTurnShot: currentTurn.currentShot, drinkBonusShot, giveShot, giveShotToAnotherPlayer, handleGetAnotherShot, handleGetRandomShot, handleTurnDone, isFirstFreeShowDrawn, isGiveShotToAnotherPlayer, isShotDrawn, isTurnDone, players, reloadedShots, skipShot, bonusShot,  }}  />
-            </CenterContainer>
-        </>
-    )
-}
+  return (
+    <main>
+      <PlayerStatsCenter
+        {...{
+          currentTurnShot: state.currentTurn?.currentShot,
+          currentTurnPlayer: state.currentTurn?.currentPlayer,
+          isTurnDone: state.state === State.TurnDone,
+        }}
+      />
+      {renderShotNotPrepared()}
+      {renderShotIsPrepared()}
+      {renderTurnIsDone()}
+      {renderButtonsCenter()}
+    </main>
+  );
+};

@@ -1,14 +1,8 @@
-import { Alcohol, Shot, Proportions } from '../types';
+import { Proportions, Alcohol, Shot } from '../types';
 import { getRandomItemFromArray } from '../utils';
 
 export class ShotFactory {
-  private capacity: number = 6;
   private proportions: Proportions[] = [2, 4, 3];
-  private alcohol: Alcohol[];
-
-  constructor(alcohol: Alcohol[]) {
-    this.alcohol = alcohol;
-  }
 
   private getAvaiableCapacity(currentCapacity: number): Proportions {
     if (currentCapacity === 4) {
@@ -21,7 +15,7 @@ export class ShotFactory {
     return getRandomItemFromArray(this.proportions);
   }
 
-  private getRandomCapacities(capacity: number): Proportions[] {
+  getRandomCapacities(capacity: number = 6): Proportions[] {
     const capacities: Proportions[] = [];
     while (capacity) {
       const randomCapacity: Proportions = this.getAvaiableCapacity(capacity);
@@ -31,27 +25,21 @@ export class ShotFactory {
     return capacities;
   }
 
-  private getRandomAlcohol(proportions: Proportions[]): Alcohol[] {
-    return proportions.map(() => getRandomItemFromArray(this.alcohol));
-  }
-
-  private getPointsForShot(capacities: any, alcohol: Alcohol[]): number {
+  private getPointsForShot(capacities: Proportions[], Alcohol: Alcohol[]): number {
     const sum = capacities.map(function (num: number, idx: number) {
-      return num * alcohol[idx].percentage;
+      return num * Alcohol[idx].percentage;
     });
 
     const points = sum.reduce((acc: number, curr: number) => acc + curr);
-    const bonusPoints = alcohol.some((a) => a.bonus) ? points * 2 : points;
+    const bonusPoints = Alcohol.some((a) => a.bonus) ? points * 2 : points;
     return Math.floor(bonusPoints * 0.1);
   }
 
-  getRandomShot(): Shot {
-    const randomCapacities = this.getRandomCapacities(this.capacity);
-    const randomAlcohol = this.getRandomAlcohol(randomCapacities);
-    const points = this.getPointsForShot(randomCapacities, randomAlcohol);
+  getRandomShot(proportions: Proportions[], alcohols: Alcohol[]): Shot {
+    const points = this.getPointsForShot(proportions, alcohols);
     return {
-      alcohol: randomAlcohol,
-      proportions: randomCapacities,
+      alcohol: alcohols,
+      proportions,
       points,
     };
   }
