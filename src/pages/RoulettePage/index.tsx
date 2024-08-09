@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, useRef } from 'react';
+import { useEffect, useState, useCallback, useRef, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { Alcohol, Game } from '../../types';
 import { RootState } from '../../storage/store';
@@ -8,7 +8,9 @@ const RoulettePage = ({ game, setIsShotPrepared }: { game: Game; setIsShotPrepar
   const [chosenAlcohols, setChosenAlcohols] = useState<Alcohol[]>([]);
   const [isSpinning, setIsSpinning] = useState<boolean>(false);
 
-  const alcohols: Alcohol[] = useSelector((state: RootState) => state.alcohol.items);
+  const allAlcohols: Alcohol[] = useSelector((state: RootState) => state.alcohol.items);
+
+  const alcohols = useMemo(() => [...allAlcohols, ...allAlcohols, ...allAlcohols], [allAlcohols]);
 
   const angVelRef = useRef<number>(0);
   const angRef = useRef<number>(0);
@@ -39,7 +41,7 @@ const RoulettePage = ({ game, setIsShotPrepared }: { game: Game; setIsShotPrepar
       ctx.translate(rad, rad);
       ctx.rotate(angle + arc / 2);
       ctx.textAlign = 'right';
-      ctx.fillStyle = '#fff';
+      ctx.fillStyle = '#000';
       ctx.font = 'bold 18px sans-serif';
       ctx.fillText(sector.name, rad - 10, 10);
       ctx.restore();
@@ -91,7 +93,7 @@ const RoulettePage = ({ game, setIsShotPrepared }: { game: Game; setIsShotPrepar
       if (!ctx) return;
       const rad = canvas.width / 2;
 
-      [...alcohols, ...alcohols].forEach((alcohol, i) => drawSector(ctx, alcohol, i, rad));
+      alcohols.forEach((alcohol, i) => drawSector(ctx, alcohol, i, rad));
       rotate(ctx, canvas, spinEl);
       engine(ctx, canvas, spinEl);
     },
@@ -128,7 +130,7 @@ const RoulettePage = ({ game, setIsShotPrepared }: { game: Game; setIsShotPrepar
   const handleOnClick = useCallback(() => {
     if (isSpinning) return;
     setIsSpinning(true);
-    if (!angVelRef.current) angVelRef.current = rand(0.055, 0.1);
+    if (!angVelRef.current) angVelRef.current = rand(0.05, 0.15);
   }, [isSpinning]);
 
   return (

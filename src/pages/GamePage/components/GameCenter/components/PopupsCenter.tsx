@@ -57,7 +57,7 @@ export const PopupsCenter: React.FC<PopupsCenterProps> = ({
           <DonePoints theme={currentScaleColor}>+ {currentShotTurn.points}</DonePoints>
         </PopupTitle>
         <DoneMessage>punktów dla ciebie! </DoneMessage>
-        <Button onClick={handleEndTurn}>Następny Pijak</Button>;
+        <Button onClick={handleEndTurn}>Następny Pijak</Button>
       </>
     );
   }
