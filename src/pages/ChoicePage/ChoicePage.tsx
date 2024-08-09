@@ -11,19 +11,20 @@ const ChoicePage = () => {
   const items: Alcohol[] = useSelector((state: RootState) => state.alcohol.items);
   const isEmpty = useValidation({ dependency: items, defaultValue: false });
 
-  console.log(isEmpty);
   return (
-    <NormalLayout>
-      <Container>
-        {items.map((item: Alcohol) => (
-          <Item {...item} key={item.id} />
-        ))}
-        <Form />
-        <RouteButton to="players" className={isEmpty ? 'disabled' : ''}>
-          NEXT
-        </RouteButton>
-      </Container>
-    </NormalLayout>
+    <div style={{ width: '60%', margin: 'auto' }}>
+      <NormalLayout>
+        <Container>
+          {items.map((item: Alcohol) => (
+            <Item {...item} key={item.id} />
+          ))}
+          <Form />
+          <RouteButton to="players" className={isEmpty ? 'disabled' : ''}>
+            NEXT
+          </RouteButton>
+        </Container>
+      </NormalLayout>
+    </div>
   );
 };
 

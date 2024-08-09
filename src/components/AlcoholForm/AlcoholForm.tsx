@@ -21,19 +21,21 @@ const AlcoholForm = () => {
 
   return (
     <S.Form onSubmit={handleSubmit(onSubmit)}>
-      <S.FormHeader>Add an alcohol </S.FormHeader>
+      <S.FormHeader>Dodaj Alkohol </S.FormHeader>
 
-      <S.Label>alcohol name</S.Label>
+      <S.Label>Nazwa</S.Label>
+      <br />
       <S.FormField type="text" {...register('name', { required: true })} />
-
-      <S.Label>alcohol percentage</S.Label>
+      <br />
+      <S.Label>Woltarz</S.Label>
+      <br />
       <S.FormField type="number" {...register('percentage', { required: true })} />
       <S.FormSpecial>
-        <S.SpecialHeader>alcohol color</S.SpecialHeader>
+        <S.SpecialHeader>Kolor</S.SpecialHeader>
         <S.FormColor type="color" {...register('color', { required: true })} />
       </S.FormSpecial>
       <S.FormControl>
-        <S.SpecialHeader>double points?</S.SpecialHeader>
+        <S.SpecialHeader>Podwoić punkty?</S.SpecialHeader>
         <S.FormCheckbox type="checkbox" {...register('bonus')} />
       </S.FormControl>
       <S.SubmitButton type="submit" value="ADD" />

@@ -4,11 +4,11 @@ export const Form = styled.form`
   background: black;
   padding: 20px 25px;
   border-radius: 15px;
+  width: 100%;
 
   transition: 0.5s;
 
-  &:hover{
-    transform: scale(1.2);
+  &:hover {
     cursor: pointer;
   }
 `;
@@ -91,7 +91,7 @@ export const FormColor = styled.input`
 `;
 
 export const SpecialHeader = styled.label`
-    color: #666893;
+  color: #666893;
   font-size: 16px;
   font-weight: 600;
   font-weight: 200;

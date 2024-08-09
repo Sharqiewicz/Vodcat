@@ -14,69 +14,65 @@ export const Container = styled.div`
   color: ${(props) => (props.theme.bonus ? 'white' : 'var(--veryDarkBlue)')};
 
   transition: 0.5s;
-  &:hover{
-    transform: scale(1.2);
+  &:hover {
     cursor: pointer;
   }
 `;
 
 export const GoldContainer = styled.div`
-background: #FFD700;
-color: 	#a17f1a;
-font-weight: 600;
-width: 100%;
-margin-bottom: 26px;
-display: flex;
-flex-wrap: wrap;
-align-items: space-between;
-border-radius: 5px;
-padding: 10px;
-border-top: 10px solid #a17f1a;
-transition: 0.5s;
-&:hover{
-  transform: scale(1.2);
-  cursor: pointer;
-}
-`
+  background: #ffd700;
+  color: #a17f1a;
+  font-weight: 600;
+  width: 100%;
+  margin-bottom: 26px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: space-between;
+  border-radius: 5px;
+  padding: 10px;
+  border-top: 10px solid #a17f1a;
+  transition: 0.5s;
+  &:hover {
+    cursor: pointer;
+  }
+`;
 
 export const SilverContainer = styled.div`
-background: #D1D1D1;
-color: #AFAFAF;
-font-weight: 600;
-width: 100%;
-margin-bottom: 26px;
-display: flex;
-flex-wrap: wrap;
-align-items: space-between;
-border-radius: 5px;
-padding: 10px;
-border-top: 10px solid #AFAFAF;
-transition: 0.5s;
-&:hover{
-  transform: scale(1.2);
-  cursor: pointer;
-}
-`
+  background: #d1d1d1;
+  color: #afafaf;
+  font-weight: 600;
+  width: 100%;
+  margin-bottom: 26px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: space-between;
+  border-radius: 5px;
+  padding: 10px;
+  border-top: 10px solid #afafaf;
+  transition: 0.5s;
+  &:hover {
+    cursor: pointer;
+  }
+`;
 
 export const BrownContainer = styled.div`
-background: brown;
-color: #5C4033;
-font-weight: 600;
-width: 100%;
-margin-bottom: 26px;
-display: flex;
-flex-wrap: wrap;
-align-items: space-between;
-border-radius: 5px;
-padding: 10px;
-border-top: 10px solid #5C4033;
+  background: brown;
+  color: #5c4033;
+  font-weight: 600;
+  width: 100%;
+  margin-bottom: 26px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: space-between;
+  border-radius: 5px;
+  padding: 10px;
+  border-top: 10px solid #5c4033;
 
-transition: 0.5s;
-&:hover{
-  transform: scale(1.2);
-  cursor: pointer;
-}
-`
+  transition: 0.5s;
+  &:hover {
+    cursor: pointer;
+  }
+`;
 
 export const Name = styled.div`
   text-align: center;
@@ -86,8 +82,8 @@ export const Name = styled.div`
 `;
 
 export const PlayerRemove = styled.div`
-background-color: red;
-color: white;
-padding: 5px 12px;
-border-radius: 100%;
+  background-color: red;
+  color: white;
+  padding: 5px 12px;
+  border-radius: 100%;
 `;

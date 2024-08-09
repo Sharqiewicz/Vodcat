@@ -12,16 +12,18 @@ const PlayersPage = () => {
   const isEmpty = useValidation({ dependency: players, defaultValue: false });
   return (
     <NormalLayout>
-      <Container>
-        {players.map((player: any) => (
-          <PlayerCard {...player} />
-        ))}
-        <Form />
+      <div style={{ width: '60%', margin: 'auto' }}>
+        <Container>
+          {players.map((player: any) => (
+            <PlayerCard {...player} />
+          ))}
+          <Form />
 
-        <RouteButton to="/game" className={isEmpty ? 'disabled' : ''}>
-          PLAY
-        </RouteButton>
-      </Container>
+          <RouteButton to="/game" className={isEmpty ? 'disabled' : ''}>
+            GRAJ! PIJ! WALCZ!
+          </RouteButton>
+        </Container>
+      </div>
     </NormalLayout>
   );
 };

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const ItemContainer = styled.div`
-  background: ${(props) => (props.theme.bonus ? 'var(--veryDarkBlue)' : 'white')};
+  background: ${(props) => (props.theme.bonus ? '#5D0E41' : 'white')};
   width: 100%;
   margin-bottom: 26px;
   height: 120px;
@@ -15,8 +15,7 @@ export const ItemContainer = styled.div`
 
   color: ${(props) => (props.theme.bonus ? 'white' : 'var(--veryDarkBlue)')};
 
-  &:hover{
-    transform: scale(1.2);
+  &:hover {
     cursor: pointer;
   }
 `;

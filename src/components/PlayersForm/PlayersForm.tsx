@@ -18,11 +18,11 @@ const AlcoholForm = () => {
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
-      <FormHeader>Add players </FormHeader>
+      <FormHeader>Dodaj pijaka </FormHeader>
 
-      <Label>PLAYER NAME</Label>
+      <Label>Nazwa pijaka</Label>
       <FormField type="text" {...register('name', { required: true })} />
-      <SubmitButton type="submit" value="ADD" />
+      <SubmitButton type="submit" value="DODAJ" />
     </Form>
   );
 };

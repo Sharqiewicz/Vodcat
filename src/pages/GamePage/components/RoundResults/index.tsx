@@ -11,25 +11,25 @@ const compare = (a: Player, b: Player) => {
 };
 
 interface RoundResultsProps {
-  setIsNewRound: React.Dispatch<React.SetStateAction<boolean>>
+  setIsNewRound: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const RoundResults: React.FC<RoundResultsProps> = ({setIsNewRound}) => {
+export const RoundResults: React.FC<RoundResultsProps> = ({ setIsNewRound }) => {
   const players: Player[] = useSelector((state: RootState) => state.players.list);
   const playersCopy = [...players];
 
   return (
     <NormalLayout>
-      <Container>
-        {playersCopy.sort(compare).map((player: any) => (
-          <PlayerCard {...player} withPoints={true} />
-        ))}
-        <NormalButton onClick={() => setIsNewRound(false)}>NEXT ROUND</NormalButton>
+      <div style={{ width: '60%', margin: 'auto' }}>
+        <Container>
+          {playersCopy.sort(compare).map((player: any) => (
+            <PlayerCard {...player} withPoints={true} />
+          ))}
+          <NormalButton onClick={() => setIsNewRound(false)}>NEXT ROUND</NormalButton>
 
-        <RouteButton to="/finish">
-          FINISH GAME
-        </RouteButton>
-      </Container>
+          <RouteButton to="/finish">FINISH GAME</RouteButton>
+        </Container>
+      </div>
     </NormalLayout>
   );
 };
