@@ -15,6 +15,7 @@ import { POINTS_FOR_GIVING_UP } from '../../utils/consts';
 import RoulettePage from '../../../RoulettePage';
 import { getScaleColor } from './helpers';
 import { GameElementsContainer, Main, Sidebar } from '../../GamePage.styles';
+import BonusRoulettePage from '../BonusRoulettePage';
 
 enum State {
   Initializing,
@@ -126,6 +127,7 @@ export const GameCenter = (props: any) => {
   const [state, localDispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
+    // IT HAS TO START ONLY ONCE
     localDispatch({ type: Event.Initialize, payload: game.startGame(players) });
   }, []);
 
@@ -225,11 +227,7 @@ export const GameCenter = (props: any) => {
 
   const renderBonusWheel = () =>
     state.state === State.PlayingTurn &&
-    state.isBonusWheelActive && (
-      <>
-        <h1> Bonus Wheel </h1>
-      </>
-    );
+    state.isBonusWheelActive && <BonusRoulettePage game={game} endBonusWheel={endBonusWheel} />;
 
   return (
     <Main>

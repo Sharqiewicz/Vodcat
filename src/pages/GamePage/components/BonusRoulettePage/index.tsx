@@ -1,22 +1,30 @@
 import { useEffect, useState, useCallback, useRef } from 'react';
 import { useSelector } from 'react-redux';
-import { Alcohol, Game } from '../../../../types';
+import { Game } from '../../../../types';
 import { RootState } from '../../../../storage/store';
 
-const RoulettePage = ({ game, setIsShotPrepared }: { game: Game; setIsShotPrepared: any }) => {
-  const [chosenAlcohol, setChosenAlcohol] = useState<Alcohol | null>(null);
-  const [chosenAlcohols, setChosenAlcohols] = useState<Alcohol[]>([]);
+const BonusRoulettePage = ({ game, endBonusWheel }: { game: Game; endBonusWheel: any }) => {
   const [isSpinning, setIsSpinning] = useState<boolean>(false);
-
-  const alcohols: Alcohol[] = useSelector((state: RootState) => state.alcohol.items);
+  const [chosenBonus, setChosenBonus] = useState<Bonus>();
+  const [chosenBonuses, setChosenBonuses] = useState<Bonus[]>([]);
 
   const angVelRef = useRef<number>(0);
   const angRef = useRef<number>(0);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const spinElRef = useRef<HTMLElement | null>(null);
 
+  interface Bonus {
+    name: string;
+    color: string;
+  }
+  const bonuses: Bonus[] = [
+    { name: 'Bonus 1', color: '#f00' },
+    { name: 'Bonus 2', color: '#0f0' },
+    { name: 'Bonus 3', color: '#00f' },
+  ];
+
   const rand = (min: number, max: number): number => Math.random() * (max - min) + min;
-  const tot = alcohols.length;
+  const tot = bonuses.length;
   const PI = Math.PI;
   const TAU = 2 * PI;
   const arc = TAU / tot;
@@ -25,7 +33,7 @@ const RoulettePage = ({ game, setIsShotPrepared }: { game: Game; setIsShotPrepar
   const getIndex = useCallback(() => Math.floor(tot - (angRef.current / TAU) * tot) % tot, [TAU, tot]);
 
   const drawSector = useCallback(
-    (ctx: CanvasRenderingContext2D, sector: Alcohol, i: number, rad: number): void => {
+    (ctx: CanvasRenderingContext2D, sector: Bonus, i: number, rad: number): void => {
       const angle = arc * i;
       ctx.save();
       // COLOR
@@ -49,13 +57,13 @@ const RoulettePage = ({ game, setIsShotPrepared }: { game: Game; setIsShotPrepar
 
   const rotate = useCallback(
     (ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement, spinEl: HTMLElement): void => {
-      const sector = alcohols[getIndex()];
+      const sector = bonuses[getIndex()];
       canvas.style.transform = `rotate(${angRef.current - PI / 2}rad)`;
       spinEl.style.color = sector.color;
       spinEl.innerHTML = !angVelRef.current ? `<h1>KRĘĆ</h1>` : `<h1>${sector.name}</h1>`;
       spinEl.style.background = sector.color;
     },
-    [alcohols, getIndex, PI]
+    [bonuses, getIndex, PI]
   );
 
   const frame = useCallback(
@@ -67,14 +75,14 @@ const RoulettePage = ({ game, setIsShotPrepared }: { game: Game; setIsShotPrepar
       angVelRef.current *= friction; // Decrement velocity by friction
       if (angVelRef.current < 0.002) {
         angVelRef.current = 0; // Bring to stop
-        const sector = alcohols[getIndex()];
-        setChosenAlcohol(sector);
+        const sector = bonuses[getIndex()];
+        setChosenBonus(sector);
       }
       angRef.current += angVelRef.current; // Update angle
       angRef.current %= TAU; // Normalize angle
       rotate(ctx, canvas, spinEl);
     },
-    [TAU, rotate, alcohols, getIndex]
+    [TAU, rotate, bonuses, getIndex]
   );
 
   const engine = useCallback(
@@ -91,11 +99,11 @@ const RoulettePage = ({ game, setIsShotPrepared }: { game: Game; setIsShotPrepar
       if (!ctx) return;
       const rad = canvas.width / 2;
 
-      [...alcohols, ...alcohols].forEach((alcohol, i) => drawSector(ctx, alcohol, i, rad));
+      [...bonuses, ...bonuses].forEach((bonus, i) => drawSector(ctx, bonus, i, rad));
       rotate(ctx, canvas, spinEl);
       engine(ctx, canvas, spinEl);
     },
-    [alcohols, drawSector, rotate, engine]
+    [bonuses, drawSector, rotate, engine]
   );
 
   useEffect(() => {
@@ -112,18 +120,12 @@ const RoulettePage = ({ game, setIsShotPrepared }: { game: Game; setIsShotPrepar
       canvasRef.current = null;
       spinElRef.current = null;
     };
-  }, [alcohols, init]);
+  }, [bonuses, init]);
 
   useEffect(() => {
-    if (!isSpinning && chosenAlcohol) {
-      const shotIsPrepared = game.prepareShot([...chosenAlcohols, chosenAlcohol]);
-      chosenAlcohol && setChosenAlcohols((prev) => [...prev, chosenAlcohol]);
-      setChosenAlcohol(null);
-      if (shotIsPrepared) {
-        setIsShotPrepared(shotIsPrepared);
-      }
+    if (!isSpinning) {
     }
-  }, [chosenAlcohol, chosenAlcohols, game, isSpinning, setIsShotPrepared]);
+  }, [isSpinning]);
 
   const handleOnClick = useCallback(() => {
     if (isSpinning) return;
@@ -134,7 +136,7 @@ const RoulettePage = ({ game, setIsShotPrepared }: { game: Game; setIsShotPrepar
   return (
     <>
       <h1 style={{ marginBottom: 50, fontSize: 32 }}>
-        Wylosuj alkohole! {chosenAlcohols.length || '-'}/{game.currentCapacities.length || '-'}
+        Wylosuj alkohole! {chosenBonuses.length || '-'}/{game.currentCapacities.length || '-'}
       </h1>
       <div style={{ width: 600, height: 600, position: 'relative' }}>
         <canvas id="wheel" ref={canvasRef}></canvas>
@@ -146,4 +148,4 @@ const RoulettePage = ({ game, setIsShotPrepared }: { game: Game; setIsShotPrepar
   );
 };
 
-export default RoulettePage;
+export default BonusRoulettePage;
