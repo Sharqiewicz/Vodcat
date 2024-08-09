@@ -13,7 +13,7 @@ export const GameElementsContainer = styled.section`
 `;
 
 export const Sidebar = styled.aside`
-  background: rgba(0, 0, 0, 0.5);
+  background: #5d0e41;
   width: 30%;
   height: 100vh;
 `;
@@ -39,7 +39,7 @@ export const PlayerName = styled.div`
 `;
 
 export const PlayerPoints = styled.div`
-  font-size: 38px;
+  font-size: 52px;
   font-weight: 600;
   color: white;
 `;
@@ -103,13 +103,70 @@ export const DonePoints = styled.span`
 `;
 
 export const AlcoholContainer = styled.div`
-  height: 100%;
-  transform: perspective(200px) rotateX(160deg);
+  height: 414px;
+  transform: perspective(320px) rotateX(160deg);
   margin: 50px;
   overflow: hidden;
   border: 10px solid rgba(255, 255, 255, 0.2);
   background: rgba(255, 255, 255, 0.2);
   max-width: 500px !important;
+  border-radius: 20px; /* Softened edges */
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2); /* Added shadow for depth */
+  transition: transform 0.5s, box-shadow 0.5s; /* Smooth transition for hover effects */
+
+  &:hover {
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4); /* Deeper shadow on hover */
+    background: rgba(255, 255, 255, 0.3); /* Subtle background change on hover */
+  }
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.5) 0%,
+      rgba(255, 255, 255, 0.1) 100%
+    ); /* Gradient overlay */
+    mix-blend-mode: overlay; /* Blending mode for a glass-like effect */
+    opacity: 0.8;
+    pointer-events: none; /* Prevent interaction with the pseudo-element */
+  }
+
+  &:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(
+      circle at center,
+      rgba(255, 255, 255, 0.5) 0%,
+      rgba(255, 255, 255, 0) 70%
+    ); /* Radial gradient for a light burst effect */
+    transform: translate(-50%, -50%);
+    animation: light-burst 5s infinite ease-in-out; /* Smooth light burst animation */
+    pointer-events: none;
+  }
+
+  @keyframes light-burst {
+    0% {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 0.5;
+    }
+    50% {
+      transform: translate(-50%, -50%) scale(1.2);
+      opacity: 0.8;
+    }
+    100% {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 0.5;
+    }
+  }
 `;
 
 export const Empty = styled.div`

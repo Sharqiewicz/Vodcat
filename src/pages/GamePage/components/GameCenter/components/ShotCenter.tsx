@@ -1,7 +1,7 @@
 import ShotAlcohol from './../../../ShotAlcohol';
 import { Shot } from '../../../../../types';
 
-import { ShotGlass, AlcoholContainer, ShotGlassContainer } from './../../../GamePage.styles';
+import { ShotGlass, ShotGlassContainer, AlcoholContainer } from './../../../GamePage.styles';
 
 interface ShotCenterProps {
   currentTurnShot?: Shot;
