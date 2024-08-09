@@ -1,21 +1,23 @@
 import { Button, DoneButton, BlackButton } from './../../../GamePage.styles';
 
 interface ButtonsCenterProps {
-  isTurnDone: boolean;
-  skipShot: () => void;
+  startBonusWheel: () => void;
   handleTurnDone: () => void;
   handleEndTurn: () => void;
+  isTurnDone: boolean;
+  skipShot: () => void;
 }
 
 export const ButtonsCenter: React.FC<ButtonsCenterProps> = ({
-  handleEndTurn,
+  startBonusWheel,
   handleTurnDone,
-  skipShot,
+  handleEndTurn,
   isTurnDone,
+  skipShot,
 }) => {
   const renderDrawedShotButtons = () => (
     <>
-      <Button onClick={skipShot}>Koło Fortuny</Button>
+      <Button onClick={startBonusWheel}>Koło Fortuny</Button>
       <DoneButton onClick={handleTurnDone}>Wypite!</DoneButton>
       <BlackButton onClick={skipShot}>Pomiń (-10 punktów)</BlackButton>
     </>

@@ -1,4 +1,5 @@
 export function getScaleColor(points: number): string {
+  console.log('getScaleColor', points);
   if (points < 15) {
     return '#90be6d';
   }

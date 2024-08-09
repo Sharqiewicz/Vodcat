@@ -51,7 +51,7 @@ const RoulettePage = ({ game, setIsShotPrepared }: { game: Game; setIsShotPrepar
     (ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement, spinEl: HTMLElement): void => {
       const sector = alcohols[getIndex()];
       canvas.style.transform = `rotate(${angRef.current - PI / 2}rad)`;
-      spinEl.textContent = !angVelRef.current ? 'SPIN' : sector.name;
+      spinEl.textContent = !angVelRef.current ? 'KRĘĆ' : sector.name;
       spinEl.style.background = sector.color;
     },
     [alcohols, getIndex, PI]
@@ -114,29 +114,34 @@ const RoulettePage = ({ game, setIsShotPrepared }: { game: Game; setIsShotPrepar
   }, [alcohols, init]);
 
   useEffect(() => {
-    if (!isSpinning) {
-      const shotIsPrepared = game.prepareShot(chosenAlcohols);
+    if (!isSpinning && chosenAlcohol) {
+      const shotIsPrepared = game.prepareShot([...chosenAlcohols, chosenAlcohol]);
+      chosenAlcohol && setChosenAlcohols((prev) => [...prev, chosenAlcohol]);
+      setChosenAlcohol(null);
       if (shotIsPrepared) {
         setIsShotPrepared(shotIsPrepared);
       }
     }
-  }, [chosenAlcohols, game, isSpinning, setIsShotPrepared]);
+  }, [chosenAlcohol, chosenAlcohols, game, isSpinning, setIsShotPrepared]);
 
   const handleOnClick = useCallback(() => {
     if (isSpinning) return;
     setIsSpinning(true);
-    chosenAlcohol && setChosenAlcohols((prev) => [...prev, chosenAlcohol]);
-    setChosenAlcohol(null);
-    if (!angVelRef.current) angVelRef.current = rand(0.001, 0.002);
-  }, [chosenAlcohol, isSpinning]);
+    if (!angVelRef.current) angVelRef.current = rand(0.055, 0.1);
+  }, [isSpinning]);
 
   return (
-    <div className="relative" style={{ width: 600, height: 600 }}>
-      <canvas id="wheel" ref={canvasRef}></canvas>
-      <button id="spin" ref={spinElRef as any} onClick={handleOnClick} disabled={isSpinning}>
-        SPIN
-      </button>
-    </div>
+    <section>
+      <h1>
+        Wylosuj alkohole! {chosenAlcohols.length || '-'}/{game.currentCapacities.length || '-'}
+      </h1>
+      <div className="relative" style={{ width: 600, height: 600 }}>
+        <canvas id="wheel" ref={canvasRef}></canvas>
+        <button id="spin" ref={spinElRef as any} onClick={handleOnClick} disabled={isSpinning}>
+          SPIN
+        </button>
+      </div>
+    </section>
   );
 };
 

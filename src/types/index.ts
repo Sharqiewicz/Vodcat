@@ -27,6 +27,7 @@ export type Game = {
   currentPlayer: string;
   currentTurn: number;
   currentShot: Shot[];
+  currentCapacities: Proportions[];
 
   players: Player[];
   alcohols: Alcohol[];

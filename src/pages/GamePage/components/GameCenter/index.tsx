@@ -28,12 +28,16 @@ enum Event {
   TurnDone,
   SkipShot,
   ResetTurn,
+  StartBonusWheel,
+  EndBonusWheel,
 }
 
 type StateSchema = {
   state: State;
   isShotSkipped: boolean;
-  currentTurn?: Turn;
+  currentTurn?: Turn & { currentScaleColor: string };
+  isBonusWheelActive: boolean;
+  bonusFromBonusWheel?: number;
 };
 
 type Action = {
@@ -45,6 +49,7 @@ const initialState: StateSchema = {
   state: State.Initializing,
   currentTurn: undefined,
   isShotSkipped: false,
+  isBonusWheelActive: false,
 };
 
 // Manage to show proper UI for Engine state
@@ -60,9 +65,29 @@ const reducer = (state: StateSchema, action: Action): StateSchema => {
         return {
           ...state,
           state: State.PlayingTurn,
-          currentTurn: { ...(state.currentTurn as Turn), currentShot: action.payload },
+          currentTurn: {
+            ...(state.currentTurn as Turn),
+            currentShot: action.payload,
+            currentScaleColor: getScaleColor(action.payload.points),
+          },
         };
       }
+
+      if (action.type === Event.StartBonusWheel) {
+        return {
+          ...state,
+          isBonusWheelActive: true,
+        };
+      }
+
+      if (action.type === Event.EndBonusWheel) {
+        return {
+          ...state,
+          bonusFromBonusWheel: action.payload,
+          isBonusWheelActive: true,
+        };
+      }
+
       if (action.type === Event.SkipShot) {
         return { ...state, state: State.TurnDone, isShotSkipped: true };
       }
@@ -142,6 +167,14 @@ export const GameCenter = (props: any) => {
     localDispatch({ type: Event.SkipShot });
   };
 
+  const startBonusWheel = () => {
+    localDispatch({ type: Event.StartBonusWheel });
+  };
+
+  const endBonusWheel = (points: number) => {
+    localDispatch({ type: Event.EndBonusWheel, payload: points });
+  };
+
   console.log(state);
 
   const renderShotNotPrepared = () =>
@@ -156,7 +189,12 @@ export const GameCenter = (props: any) => {
     state.currentTurn?.currentShot && (
       <>
         <ShotCenter {...{ currentTurnShot: state.currentTurn?.currentShot }} />
-        <PointsCenter {...{ currentTurnShot: state.currentTurn?.currentShot, currentScaleColor: 'red' }} />
+        <PointsCenter
+          {...{
+            currentTurnShot: state.currentTurn?.currentShot,
+            currentScaleColor: state.currentTurn.currentScaleColor,
+          }}
+        />
       </>
     );
 
@@ -164,7 +202,7 @@ export const GameCenter = (props: any) => {
     state.state === State.TurnDone && (
       <PopupsCenter
         {...{
-          currentScaleColor: 'red',
+          currentScaleColor: state.currentTurn?.currentScaleColor,
           currentShotTurn: state.currentTurn?.currentShot,
           isShotSkipped: state.isShotSkipped,
         }}
@@ -178,9 +216,18 @@ export const GameCenter = (props: any) => {
           handleTurnDone,
           handleEndTurn,
           skipShot,
+          startBonusWheel,
           isTurnDone: state.state === State.TurnDone,
         }}
       />
+    );
+
+  const renderBonusWheel = () =>
+    state.state === State.PlayingTurn &&
+    state.isBonusWheelActive && (
+      <>
+        <h1> Bonus Wheel </h1>
+      </>
     );
 
   return (
@@ -194,6 +241,7 @@ export const GameCenter = (props: any) => {
       />
       {renderShotNotPrepared()}
       {renderShotIsPrepared()}
+      {renderBonusWheel()}
       {renderTurnIsDone()}
       {renderButtonsCenter()}
     </main>

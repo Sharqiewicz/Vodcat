@@ -1,11 +1,10 @@
 import { Shot } from '../../../../../types';
-
 import { DonePopup, DoneMessage, DonePoints, PopupTitle, DonePopupMock } from './../../../GamePage.styles';
 
 interface PopupsCenterProps {
-  isShotSkipped: boolean;
-  currentScaleColor: string;
+  currentScaleColor?: string;
   currentShotTurn?: Shot;
+  isShotSkipped: boolean;
 }
 
 export const PopupsCenter: React.FC<PopupsCenterProps> = ({ isShotSkipped, currentScaleColor, currentShotTurn }) => {
@@ -15,7 +14,7 @@ export const PopupsCenter: React.FC<PopupsCenterProps> = ({ isShotSkipped, curre
         <>
           <PopupTitle>👹</PopupTitle>
           <DoneMessage>
-            <DonePoints theme={currentScaleColor}>-6</DonePoints> punktów!
+            <DonePoints theme={currentScaleColor}>-10</DonePoints> punktów!
           </DoneMessage>
         </>
       );
@@ -26,11 +25,11 @@ export const PopupsCenter: React.FC<PopupsCenterProps> = ({ isShotSkipped, curre
     return (
       <>
         <PopupTitle>🎉</PopupTitle>
-        <DoneMessage>You've received</DoneMessage>
+        <DoneMessage>Brawo pijaku!</DoneMessage>
         <PopupTitle>
           <DonePoints theme={currentScaleColor}>+ {currentShotTurn.points}</DonePoints>
         </PopupTitle>
-        <DoneMessage>points bro! </DoneMessage>
+        <DoneMessage>punktów dla ciebie! </DoneMessage>
       </>
     );
   }

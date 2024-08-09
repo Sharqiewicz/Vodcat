@@ -53,6 +53,7 @@ export class Engine {
 
     if (alcohols.length === this.currentCapacities.length) {
       const shot = this.shotFactory.getRandomShot(this.currentCapacities, alcohols) as Shot;
+      console.log('SHOT CREATED', shot);
       return shot;
     }
 
