@@ -1,4 +1,9 @@
+import { useEffect } from 'react';
 import { Shot } from '../../../../../types';
+//@ts-ignore
+import BooSound from './sounds/boo.mp3';
+//@ts-ignore
+import TadaSound from './sounds/tada.mp3';
 import { DonePopup, DoneMessage, DonePoints, PopupTitle, DonePopupMock, Button } from './../../../GamePage.styles';
 
 interface PopupsCenterProps {
@@ -14,6 +19,21 @@ export const PopupsCenter: React.FC<PopupsCenterProps> = ({
   currentShotTurn,
   handleEndTurn,
 }) => {
+  useEffect(() => {
+    const buzzSound = new Audio(isShotSkipped ? BooSound : TadaSound);
+
+    if (isShotSkipped) {
+      buzzSound.loop = true;
+    }
+
+    buzzSound.play();
+
+    return () => {
+      buzzSound.pause();
+      buzzSound.currentTime = 0;
+    };
+  }, [isShotSkipped]);
+
   function getMessage() {
     if (isShotSkipped) {
       return (
