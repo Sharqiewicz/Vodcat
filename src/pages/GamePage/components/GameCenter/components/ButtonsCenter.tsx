@@ -3,7 +3,6 @@ import { Button, DoneButton, BlackButton } from './../../../GamePage.styles';
 interface ButtonsCenterProps {
   startBonusWheel: () => void;
   handleTurnDone: () => void;
-  handleEndTurn: () => void;
   isTurnDone: boolean;
   skipShot: () => void;
 }
@@ -11,7 +10,6 @@ interface ButtonsCenterProps {
 export const ButtonsCenter: React.FC<ButtonsCenterProps> = ({
   startBonusWheel,
   handleTurnDone,
-  handleEndTurn,
   isTurnDone,
   skipShot,
 }) => {
@@ -24,7 +22,7 @@ export const ButtonsCenter: React.FC<ButtonsCenterProps> = ({
   );
 
   if (isTurnDone) {
-    return <Button onClick={handleEndTurn}>Następny Pijak</Button>;
+    return <></>;
   }
 
   return renderDrawedShotButtons();

@@ -14,6 +14,7 @@ import { PopupsCenter } from './components/PopupsCenter';
 import { POINTS_FOR_GIVING_UP } from '../../utils/consts';
 import RoulettePage from '../../../RoulettePage';
 import { getScaleColor } from './helpers';
+import { GameElementsContainer, Main, Sidebar } from '../../GamePage.styles';
 
 enum State {
   Initializing,
@@ -202,6 +203,7 @@ export const GameCenter = (props: any) => {
     state.state === State.TurnDone && (
       <PopupsCenter
         {...{
+          handleEndTurn,
           currentScaleColor: state.currentTurn?.currentScaleColor,
           currentShotTurn: state.currentTurn?.currentShot,
           isShotSkipped: state.isShotSkipped,
@@ -214,7 +216,6 @@ export const GameCenter = (props: any) => {
       <ButtonsCenter
         {...{
           handleTurnDone,
-          handleEndTurn,
           skipShot,
           startBonusWheel,
           isTurnDone: state.state === State.TurnDone,
@@ -231,19 +232,23 @@ export const GameCenter = (props: any) => {
     );
 
   return (
-    <main>
-      <PlayerStatsCenter
-        {...{
-          currentTurnShot: state.currentTurn?.currentShot,
-          currentTurnPlayer: state.currentTurn?.currentPlayer,
-          isTurnDone: state.state === State.TurnDone,
-        }}
-      />
-      {renderShotNotPrepared()}
-      {renderShotIsPrepared()}
-      {renderBonusWheel()}
-      {renderTurnIsDone()}
-      {renderButtonsCenter()}
-    </main>
+    <Main>
+      <Sidebar>
+        <PlayerStatsCenter
+          {...{
+            currentTurnShot: state.currentTurn?.currentShot,
+            currentTurnPlayer: state.currentTurn?.currentPlayer,
+            isTurnDone: state.state === State.TurnDone,
+          }}
+        />
+        {renderButtonsCenter()}
+      </Sidebar>
+      <GameElementsContainer>
+        {renderShotNotPrepared()}
+        {renderShotIsPrepared()}
+        {renderBonusWheel()}
+        {renderTurnIsDone()}
+      </GameElementsContainer>
+    </Main>
   );
 };

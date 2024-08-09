@@ -1,12 +1,27 @@
 import styled from 'styled-components';
 
+export const CenterContainer = styled.div``;
 
-export const CenterContainer = styled.div`
+export const PlayerStats = styled.div``;
+
+export const GameElementsContainer = styled.section`
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
-export const PlayerStats = styled.div`
-  width: 100%;
+export const Sidebar = styled.aside`
   background: rgba(0, 0, 0, 0.5);
+  width: 30%;
+  height: 100vh;
+`;
+
+export const Main = styled.main`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 export const PlayerStatsContainer = styled.div`
@@ -42,16 +57,16 @@ export const ShotGlass = styled.div`
 `;
 
 export const PopupTitle = styled.h1`
-font-size: 72px;
-width: 100%;
-text-align: center;
-margin: 0;
-`
+  font-size: 72px;
+  width: 100%;
+  text-align: center;
+  margin: 0;
+`;
 
 export const DonePopupMock = styled.div`
   height: 70vh;
   width: 100%;
-`
+`;
 
 export const DonePopup = styled.div`
   background: rgba(0, 0, 0, 0.9);
@@ -104,8 +119,8 @@ export const Empty = styled.div`
 `;
 
 export const Button = styled.button`
-position: relative;
-z-index: 999;
+  position: relative;
+  z-index: 999;
   background-color: #dd355b;
   border: 1px solid transparent;
   border-radius: 0.75rem;
@@ -130,13 +145,12 @@ z-index: 999;
   margin: 10px 5%;
 `;
 
-
 export const DoneButton = styled.button`
   background-color: #a17f1a;
   border: 1px solid transparent;
   border-radius: 0.75rem;
   box-sizing: border-box;
-  color: #FFD700;
+  color: #ffd700;
   cursor: pointer;
   flex: 0 0 auto;
   font-size: 1.125rem;
@@ -154,7 +168,7 @@ export const DoneButton = styled.button`
   touch-action: manipulation;
   width: 90%;
   margin: 10px 5%;
-`
+`;
 
 export const BlackButton = styled.button`
   background-color: black;
@@ -179,9 +193,9 @@ export const BlackButton = styled.button`
   touch-action: manipulation;
   width: 90%;
   margin: 10px 5%;
-`
+`;
 
 export const ShotGlassContainer = styled.div`
   width: 300px;
   margin: auto;
-`
+`;

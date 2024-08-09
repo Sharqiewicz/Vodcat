@@ -1,13 +1,19 @@
 import { Shot } from '../../../../../types';
-import { DonePopup, DoneMessage, DonePoints, PopupTitle, DonePopupMock } from './../../../GamePage.styles';
+import { DonePopup, DoneMessage, DonePoints, PopupTitle, DonePopupMock, Button } from './../../../GamePage.styles';
 
 interface PopupsCenterProps {
   currentScaleColor?: string;
   currentShotTurn?: Shot;
   isShotSkipped: boolean;
+  handleEndTurn: () => void;
 }
 
-export const PopupsCenter: React.FC<PopupsCenterProps> = ({ isShotSkipped, currentScaleColor, currentShotTurn }) => {
+export const PopupsCenter: React.FC<PopupsCenterProps> = ({
+  isShotSkipped,
+  currentScaleColor,
+  currentShotTurn,
+  handleEndTurn,
+}) => {
   function getMessage() {
     if (isShotSkipped) {
       return (
@@ -16,6 +22,7 @@ export const PopupsCenter: React.FC<PopupsCenterProps> = ({ isShotSkipped, curre
           <DoneMessage>
             <DonePoints theme={currentScaleColor}>-10</DonePoints> punktów!
           </DoneMessage>
+          <Button onClick={handleEndTurn}>Następny Pijak</Button>
         </>
       );
     }
@@ -30,6 +37,7 @@ export const PopupsCenter: React.FC<PopupsCenterProps> = ({ isShotSkipped, curre
           <DonePoints theme={currentScaleColor}>+ {currentShotTurn.points}</DonePoints>
         </PopupTitle>
         <DoneMessage>punktów dla ciebie! </DoneMessage>
+        <Button onClick={handleEndTurn}>Następny Pijak</Button>;
       </>
     );
   }

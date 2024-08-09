@@ -6,8 +6,4 @@ export const LayoutContainer = styled.div`
   height: 100%;
   width: 100%;
   color: ${colors.dust};
-
-  @media (min-width: 768px){
-    width: 70%;
-  }
 `;

@@ -51,7 +51,8 @@ const RoulettePage = ({ game, setIsShotPrepared }: { game: Game; setIsShotPrepar
     (ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement, spinEl: HTMLElement): void => {
       const sector = alcohols[getIndex()];
       canvas.style.transform = `rotate(${angRef.current - PI / 2}rad)`;
-      spinEl.textContent = !angVelRef.current ? 'KRĘĆ' : sector.name;
+      spinEl.style.color = sector.color;
+      spinEl.innerHTML = !angVelRef.current ? `<h1>KRĘĆ</h1>` : `<h1>${sector.name}</h1>`;
       spinEl.style.background = sector.color;
     },
     [alcohols, getIndex, PI]
@@ -131,17 +132,17 @@ const RoulettePage = ({ game, setIsShotPrepared }: { game: Game; setIsShotPrepar
   }, [isSpinning]);
 
   return (
-    <section>
-      <h1>
+    <>
+      <h1 style={{ marginBottom: 50, fontSize: 32 }}>
         Wylosuj alkohole! {chosenAlcohols.length || '-'}/{game.currentCapacities.length || '-'}
       </h1>
-      <div className="relative" style={{ width: 600, height: 600 }}>
+      <div style={{ width: 600, height: 600, position: 'relative' }}>
         <canvas id="wheel" ref={canvasRef}></canvas>
         <button id="spin" ref={spinElRef as any} onClick={handleOnClick} disabled={isSpinning}>
-          SPIN
+          <h1>KRĘĆ</h1>
         </button>
       </div>
-    </section>
+    </>
   );
 };
 
