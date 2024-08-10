@@ -44,7 +44,7 @@ const WelcomePage = () => {
             }}
           >
             <img src={IMG} style={{ width: 700, cursor: 'pointer' }} alt="Start playing wakajki" />
-            <RouteButton to="choice" style={{ zIndex: 999 }}>
+            <RouteButton to="/choice" style={{ zIndex: 999 }}>
               Rozpocznij grę
             </RouteButton>
           </div>

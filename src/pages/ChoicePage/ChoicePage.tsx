@@ -19,7 +19,7 @@ const ChoicePage = () => {
             <Item {...item} key={item.id} />
           ))}
           <Form />
-          <RouteButton to="players" className={isEmpty ? 'disabled' : ''}>
+          <RouteButton to="/players" className={isEmpty ? 'disabled' : ''}>
             NEXT
           </RouteButton>
         </Container>
