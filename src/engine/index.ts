@@ -28,6 +28,7 @@ export class Engine {
   }
 
   playTurn(players: Player[]): Turn {
+    this.currentCapacities = [];
     this.setNewCurrentPlayerIndex(this.currentPlayerIndex + 1);
 
     let isNewRound = false;

@@ -4,7 +4,7 @@ export type Player = {
   name: string;
   points: number;
   id: string;
-  shotCache: Shot[];
+  banned: Alcohol[];
 };
 
 export type Alcohol = {

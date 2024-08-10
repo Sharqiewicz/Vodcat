@@ -9,6 +9,7 @@ import { DonePopup, DoneMessage, DonePoints, PopupTitle, DonePopupMock, Button }
 interface PopupsCenterProps {
   currentScaleColor?: string;
   currentShotTurn?: Shot;
+  isShotSkippedWithPoints: boolean;
   isShotSkipped: boolean;
   handleEndTurn: () => void;
 }
@@ -18,6 +19,7 @@ export const PopupsCenter: React.FC<PopupsCenterProps> = ({
   currentScaleColor,
   currentShotTurn,
   handleEndTurn,
+  isShotSkippedWithPoints,
 }) => {
   useEffect(() => {
     const buzzSound = new Audio(isShotSkipped ? BooSound : TadaSound);
@@ -48,6 +50,20 @@ export const PopupsCenter: React.FC<PopupsCenterProps> = ({
     }
 
     if (!currentShotTurn) return <></>;
+
+    if (isShotSkippedWithPoints) {
+      return (
+        <>
+          <PopupTitle>🎉</PopupTitle>
+          <DoneMessage>Brawo skubańcu!</DoneMessage>
+          <PopupTitle>
+            <DonePoints theme="green">+15</DonePoints>
+          </PopupTitle>
+          <DoneMessage>punktów dla ciebie! </DoneMessage>
+          <Button onClick={handleEndTurn}>Następny Pijak</Button>
+        </>
+      );
+    }
 
     return (
       <>

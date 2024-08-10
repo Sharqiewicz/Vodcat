@@ -1,27 +1,17 @@
 import { useEffect, useState, useCallback, useRef } from 'react';
-import { useSelector } from 'react-redux';
 import { Game } from '../../../../types';
-import { RootState } from '../../../../storage/store';
+import { Bonus, getBonuses } from './bonuses';
 
-const BonusRoulettePage = ({ game, endBonusWheel }: { game: Game; endBonusWheel: any }) => {
+const bonuses = getBonuses();
+
+const BonusRoulettePage = ({ endBonusWheel }: { game: Game; endBonusWheel: any }) => {
   const [isSpinning, setIsSpinning] = useState<boolean>(false);
   const [chosenBonus, setChosenBonus] = useState<Bonus>();
-  const [chosenBonuses, setChosenBonuses] = useState<Bonus[]>([]);
 
   const angVelRef = useRef<number>(0);
   const angRef = useRef<number>(0);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const spinElRef = useRef<HTMLElement | null>(null);
-
-  interface Bonus {
-    name: string;
-    color: string;
-  }
-  const bonuses: Bonus[] = [
-    { name: 'Bonus 1', color: '#f00' },
-    { name: 'Bonus 2', color: '#0f0' },
-    { name: 'Bonus 3', color: '#00f' },
-  ];
 
   const rand = (min: number, max: number): number => Math.random() * (max - min) + min;
   const tot = bonuses.length;
@@ -60,10 +50,10 @@ const BonusRoulettePage = ({ game, endBonusWheel }: { game: Game; endBonusWheel:
       const sector = bonuses[getIndex()];
       canvas.style.transform = `rotate(${angRef.current - PI / 2}rad)`;
       spinEl.style.color = sector.color;
-      spinEl.innerHTML = !angVelRef.current ? `<h1>KRĘĆ</h1>` : `<h1>${sector.name}</h1>`;
+      spinEl.innerHTML = !angVelRef.current ? `<h1>${sector.name}</h1>` : `<h1>${sector.name}</h1>`;
       spinEl.style.background = sector.color;
     },
-    [bonuses, getIndex, PI]
+    [getIndex, PI]
   );
 
   const frame = useCallback(
@@ -82,7 +72,7 @@ const BonusRoulettePage = ({ game, endBonusWheel }: { game: Game; endBonusWheel:
       angRef.current %= TAU; // Normalize angle
       rotate(ctx, canvas, spinEl);
     },
-    [TAU, rotate, bonuses, getIndex]
+    [TAU, rotate, getIndex]
   );
 
   const engine = useCallback(
@@ -103,7 +93,7 @@ const BonusRoulettePage = ({ game, endBonusWheel }: { game: Game; endBonusWheel:
       rotate(ctx, canvas, spinEl);
       engine(ctx, canvas, spinEl);
     },
-    [bonuses, drawSector, rotate, engine]
+    [drawSector, rotate, engine]
   );
 
   useEffect(() => {
@@ -120,24 +110,24 @@ const BonusRoulettePage = ({ game, endBonusWheel }: { game: Game; endBonusWheel:
       canvasRef.current = null;
       spinElRef.current = null;
     };
-  }, [bonuses, init]);
+  }, [init]);
 
   useEffect(() => {
-    if (!isSpinning) {
+    if (!isSpinning && chosenBonus) {
+      endBonusWheel(chosenBonus);
+      setChosenBonus(undefined);
     }
-  }, [isSpinning]);
+  }, [chosenBonus, endBonusWheel, isSpinning]);
 
   const handleOnClick = useCallback(() => {
     if (isSpinning) return;
     setIsSpinning(true);
-    if (!angVelRef.current) angVelRef.current = rand(0.055, 0.1);
+    if (!angVelRef.current) angVelRef.current = rand(0.015, 0.25);
   }, [isSpinning]);
 
   return (
     <>
-      <h1 style={{ marginBottom: 50, fontSize: 32 }}>
-        Wylosuj alkohole! {chosenBonuses.length || '-'}/{game.currentCapacities.length || '-'}
-      </h1>
+      <h1 style={{ marginBottom: 50, fontSize: 32 }}>Wylosuj Bonus!</h1>
       <div style={{ width: 600, height: 600, position: 'relative' }}>
         <canvas id="wheel" ref={canvasRef}></canvas>
         <button id="spin" ref={spinElRef as any} onClick={handleOnClick} disabled={isSpinning}>

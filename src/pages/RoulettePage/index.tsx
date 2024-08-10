@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, useRef, useMemo } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { Alcohol, Game } from '../../types';
 import { RootState } from '../../storage/store';
@@ -8,9 +8,7 @@ const RoulettePage = ({ game, setIsShotPrepared }: { game: Game; setIsShotPrepar
   const [chosenAlcohols, setChosenAlcohols] = useState<Alcohol[]>([]);
   const [isSpinning, setIsSpinning] = useState<boolean>(false);
 
-  const allAlcohols: Alcohol[] = useSelector((state: RootState) => state.alcohol.items);
-
-  const alcohols = useMemo(() => [...allAlcohols, ...allAlcohols, ...allAlcohols], [allAlcohols]);
+  const alcohols: Alcohol[] = useSelector((state: RootState) => state.alcohol.items);
 
   const angVelRef = useRef<number>(0);
   const angRef = useRef<number>(0);
@@ -130,7 +128,7 @@ const RoulettePage = ({ game, setIsShotPrepared }: { game: Game; setIsShotPrepar
   const handleOnClick = useCallback(() => {
     if (isSpinning) return;
     setIsSpinning(true);
-    if (!angVelRef.current) angVelRef.current = rand(0.05, 0.15);
+    if (!angVelRef.current) angVelRef.current = rand(0.1, 0.25);
   }, [isSpinning]);
 
   return (

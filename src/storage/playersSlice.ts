@@ -1,26 +1,38 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../storage/store';
-import { Player, Shot } from '../types';
+import { Alcohol, Player } from '../types';
 import { getUniqueID } from '../utils';
 
 const defaultState: Player[] = [
   {
-    name: 'Stefan',
+    name: 'Dominik',
     points: 0,
     id: '78928242',
-    shotCache: [],
+    banned: [],
   },
   {
-    name: 'Paweł',
-    points: 0,
-    id: '78928243',
-    shotCache: [],
-  },
-  {
-    name: 'Kacper',
+    name: 'Kacper S',
     points: 0,
     id: '78928245',
-    shotCache: [],
+    banned: [],
+  },
+  {
+    name: 'Kacper B',
+    points: 0,
+    id: '73232332',
+    banned: [],
+  },
+  {
+    name: 'Maksym',
+    points: 0,
+    id: '73232338',
+    banned: [],
+  },
+  {
+    name: 'Szymon',
+    points: 0,
+    id: '78928949',
+    banned: [],
   },
 ];
 
@@ -37,7 +49,7 @@ export const playersSlice = createSlice({
   initialState,
   reducers: {
     addPlayer: (state, action: { payload: string }) => {
-      state.list.push({ name: action.payload, points: 0, id: getUniqueID(), shotCache: [] });
+      state.list.push({ name: action.payload, points: 0, id: getUniqueID(), banned: [] });
     },
     addPoints: (state, action: { payload: { id: string; points: number } }) => {
       console.log('add points to player', action.payload.id, action.payload.points);
@@ -48,15 +60,13 @@ export const playersSlice = createSlice({
     removePlayer: (state, action: { payload: string }) => {
       state.list = state.list.filter((player) => player.id !== action.payload);
     },
-    addShotToCache: (state, action: { payload: { id: string; shot: Shot } }) => {
+    addShotToCache: (state, action: { payload: { id: string; banned: Alcohol } }) => {
       state.list = state.list.map((player) =>
-        player.id === action.payload.id ? { ...player, shotCache: [action.payload.shot] } : player
+        player.id === action.payload.id ? { ...player, banned: [action.payload.banned] } : player
       );
     },
     clearShot: (state, action: { payload: { id: string } }) => {
-      state.list = state.list.map((player) =>
-        player.id === action.payload.id ? { ...player, shotCache: [] } : player
-      );
+      state.list = state.list.map((player) => (player.id === action.payload.id ? { ...player, banned: [] } : player));
     },
   },
 });

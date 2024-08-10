@@ -16,6 +16,10 @@ import RoulettePage from '../../../RoulettePage';
 import { getScaleColor } from './helpers';
 import { GameElementsContainer, Main, Sidebar } from '../../GamePage.styles';
 import BonusRoulettePage from '../BonusRoulettePage';
+import { Bonus, getUnifiedBonusObject } from '../BonusRoulettePage/bonuses';
+import { IncreaseChanceForAlcoholEveryone } from './components/IncreaseChanceForAlcoholEveryone';
+import { ChangeAlcohol } from './components/ChangeAlcohol';
+import { StealPoints } from './components/StealPoints';
 
 enum State {
   Initializing,
@@ -32,6 +36,11 @@ enum Event {
   ResetTurn,
   StartBonusWheel,
   EndBonusWheel,
+  IncreaseChanceForAlcoholEveryone,
+  ChangeAlcohol,
+  DoublePoints,
+  StealPoints,
+  ResetBonusWheel,
 }
 
 type StateSchema = {
@@ -39,7 +48,12 @@ type StateSchema = {
   isShotSkipped: boolean;
   currentTurn?: Turn & { currentScaleColor: string };
   isBonusWheelActive: boolean;
-  bonusFromBonusWheel?: number;
+  isIncreaseChanceForAlcoholEveryone: boolean;
+  isChangeAlcohol: boolean;
+  isStealPoints: boolean;
+  isShotSkippedWithPoints: boolean;
+  isBonusWheelUsed: boolean;
+  ResetBonusWheel: boolean;
 };
 
 type Action = {
@@ -52,6 +66,12 @@ const initialState: StateSchema = {
   currentTurn: undefined,
   isShotSkipped: false,
   isBonusWheelActive: false,
+  isIncreaseChanceForAlcoholEveryone: false,
+  isChangeAlcohol: false,
+  isStealPoints: false,
+  isBonusWheelUsed: false,
+  isShotSkippedWithPoints: false,
+  ResetBonusWheel: false,
 };
 
 // Manage to show proper UI for Engine state
@@ -72,6 +92,7 @@ const reducer = (state: StateSchema, action: Action): StateSchema => {
             currentShot: action.payload,
             currentScaleColor: getScaleColor(action.payload.points),
           },
+          isChangeAlcohol: false,
         };
       }
 
@@ -82,11 +103,74 @@ const reducer = (state: StateSchema, action: Action): StateSchema => {
         };
       }
 
+      if (action.type === Event.IncreaseChanceForAlcoholEveryone) {
+        return {
+          ...state,
+          isBonusWheelActive: false,
+          isIncreaseChanceForAlcoholEveryone: true,
+          isChangeAlcohol: false,
+          isStealPoints: false,
+        };
+      }
+
+      if (action.type === Event.ChangeAlcohol) {
+        return {
+          ...state,
+          isBonusWheelActive: false,
+          isIncreaseChanceForAlcoholEveryone: false,
+          isChangeAlcohol: true,
+          isStealPoints: false,
+        };
+      }
+
+      if (action.type === Event.StealPoints) {
+        return {
+          ...state,
+          isBonusWheelActive: false,
+          isIncreaseChanceForAlcoholEveryone: false,
+          isChangeAlcohol: false,
+          isStealPoints: true,
+        };
+      }
+
+      if (action.type === Event.DoublePoints) {
+        return {
+          ...state,
+          currentTurn: {
+            ...state.currentTurn,
+            //@ts-ignore
+            currentShot: {
+              ...state.currentTurn!.currentShot,
+              points: state.currentTurn!.currentShot!.points * 2,
+            },
+          },
+          isBonusWheelActive: false,
+          isIncreaseChanceForAlcoholEveryone: false,
+          isStealPoints: false,
+          isBonusWheelUsed: true,
+          isChangeAlcohol: false,
+        };
+      }
+
+      if (action.type === Event.ResetBonusWheel) {
+        return {
+          ...state,
+          isBonusWheelUsed: false,
+          isIncreaseChanceForAlcoholEveryone: false,
+          isChangeAlcohol: false,
+          isStealPoints: false,
+          isBonusWheelActive: true,
+        };
+      }
+
       if (action.type === Event.EndBonusWheel) {
         return {
           ...state,
-          bonusFromBonusWheel: action.payload,
-          isBonusWheelActive: true,
+          isBonusWheelActive: false,
+          isIncreaseChanceForAlcoholEveryone: false,
+          isChangeAlcohol: false,
+          isStealPoints: false,
+          isBonusWheelUsed: true,
         };
       }
 
@@ -94,7 +178,7 @@ const reducer = (state: StateSchema, action: Action): StateSchema => {
         return { ...state, state: State.TurnDone, isShotSkipped: true };
       }
       if (action.type === Event.TurnDone) {
-        return { ...state, state: State.TurnDone };
+        return { ...state, state: State.TurnDone, isShotSkippedWithPoints: action.payload };
       }
       break;
     case State.TurnDone:
@@ -174,11 +258,58 @@ export const GameCenter = (props: any) => {
     localDispatch({ type: Event.StartBonusWheel });
   };
 
-  const endBonusWheel = (points: number) => {
-    localDispatch({ type: Event.EndBonusWheel, payload: points });
+  const endBonusWheel = (bonus: Bonus) => {
+    // Calculate bonus
+
+    const unifiedBonus = getUnifiedBonusObject(bonus);
+
+    if (unifiedBonus.points) {
+      dispatch(
+        addPoints({
+          id: state.currentTurn!.currentPlayer.id,
+          points: unifiedBonus.points,
+        })
+      );
+      endBonusEffects();
+    } else if (unifiedBonus.increaseChanceForAlcoholEveryone) {
+      localDispatch({ type: Event.IncreaseChanceForAlcoholEveryone }); // Show a screen where you choose an alcohol
+    } else if (unifiedBonus.doublePoints) {
+      localDispatch({ type: Event.DoublePoints });
+      endBonusEffects();
+    } else if (unifiedBonus.stealPoints) {
+      localDispatch({ type: Event.StealPoints });
+    } else if (unifiedBonus.skipPlusPoints) {
+      dispatch(
+        addPoints({
+          id: state.currentTurn!.currentPlayer.id,
+          points: 15,
+        })
+      );
+      endBonusEffects();
+      localDispatch({ type: Event.TurnDone, payload: true });
+    } else if (unifiedBonus.changeAlcohol) {
+      localDispatch({ type: Event.ChangeAlcohol });
+    } else if (unifiedBonus.isDecreaseOtherPlayersPoints) {
+      players
+        .filter((player) => player.id !== state.currentTurn?.currentPlayer.id)
+        .map((player) => {
+          dispatch(addPoints({ id: player.id, points: -5 }));
+        });
+    }
   };
 
-  console.log(state);
+  const resetBonusWheel = () => {
+    dispatch(addPoints({ id: state.currentTurn!.currentPlayer.id, points: -15 }));
+    localDispatch({ type: Event.ResetBonusWheel });
+  };
+
+  const endBonusEffects = () => {
+    localDispatch({ type: Event.EndBonusWheel });
+  };
+
+  const updateCurrentShot = (newShot: Shot) => {
+    localDispatch({ type: Event.ShotIsPrepared, payload: newShot });
+  };
 
   const renderShotNotPrepared = () =>
     !state.currentTurn?.currentShot && (
@@ -189,7 +320,11 @@ export const GameCenter = (props: any) => {
     );
 
   const renderShotIsPrepared = () =>
-    state.currentTurn?.currentShot && (
+    state.currentTurn?.currentShot &&
+    !state.isBonusWheelActive &&
+    !state.isIncreaseChanceForAlcoholEveryone &&
+    !state.isChangeAlcohol &&
+    !state.isStealPoints && (
       <>
         <ShotCenter {...{ currentTurnShot: state.currentTurn?.currentShot }} />
         <PointsCenter
@@ -209,25 +344,54 @@ export const GameCenter = (props: any) => {
           currentScaleColor: state.currentTurn?.currentScaleColor,
           currentShotTurn: state.currentTurn?.currentShot,
           isShotSkipped: state.isShotSkipped,
+          isShotSkippedWithPoints: state.isShotSkippedWithPoints,
         }}
       />
     );
 
   const renderButtonsCenter = () =>
-    state.currentTurn?.currentShot && (
+    state.currentTurn?.currentShot &&
+    !state.isBonusWheelActive &&
+    !state.isIncreaseChanceForAlcoholEveryone &&
+    !state.isChangeAlcohol &&
+    !state.isStealPoints && (
       <ButtonsCenter
         {...{
-          handleTurnDone,
           skipShot,
+          resetBonusWheel,
+          isBonusWheelUsed: state.isBonusWheelUsed,
+          handleTurnDone,
           startBonusWheel,
           isTurnDone: state.state === State.TurnDone,
+          isBonusWheelActive: state.isBonusWheelActive,
         }}
       />
     );
 
   const renderBonusWheel = () =>
     state.state === State.PlayingTurn &&
-    state.isBonusWheelActive && <BonusRoulettePage game={game} endBonusWheel={endBonusWheel} />;
+    state.isBonusWheelActive &&
+    !state.isIncreaseChanceForAlcoholEveryone &&
+    !state.isChangeAlcohol &&
+    !state.isStealPoints && <BonusRoulettePage game={game} endBonusWheel={endBonusWheel} />;
+
+  const renderIncreaseChanceForAlcoholEveryone = () =>
+    state.isIncreaseChanceForAlcoholEveryone && <IncreaseChanceForAlcoholEveryone endBonusEffects={endBonusEffects} />;
+
+  const renderChangeAlcohol = () =>
+    state.isChangeAlcohol && (
+      <ChangeAlcohol
+        endBonusEffects={endBonusEffects}
+        currentShot={state.currentTurn?.currentShot!}
+        updateCurrentShot={updateCurrentShot}
+        game={game}
+      />
+    );
+
+  const renderStealPoints = () =>
+    state.isStealPoints && (
+      <StealPoints endBonusEffects={endBonusEffects} currentPlayer={state.currentTurn!.currentPlayer} />
+    );
 
   return (
     <Main>
@@ -235,7 +399,7 @@ export const GameCenter = (props: any) => {
         <PlayerStatsCenter
           {...{
             currentTurnShot: state.currentTurn?.currentShot,
-            currentTurnPlayer: state.currentTurn?.currentPlayer,
+            currentTurnPlayer: players.find((player) => player.id === state.currentTurn?.currentPlayer.id),
             isTurnDone: state.state === State.TurnDone,
           }}
         />
@@ -245,6 +409,9 @@ export const GameCenter = (props: any) => {
         {renderShotNotPrepared()}
         {renderShotIsPrepared()}
         {renderBonusWheel()}
+        {renderIncreaseChanceForAlcoholEveryone()}
+        {renderChangeAlcohol()}
+        {renderStealPoints()}
         {renderTurnIsDone()}
       </GameElementsContainer>
     </Main>

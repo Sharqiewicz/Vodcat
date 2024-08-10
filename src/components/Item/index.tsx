@@ -4,7 +4,7 @@ import { removeItem } from '../../storage/alcoholSlice';
 import { Alcohol } from '../../types/';
 import { Item as View } from './Item';
 
-export const Item = memo((props: Alcohol) => {
+export const Item = memo((props: Alcohol & { disableRemove?: boolean }) => {
   const { id } = props;
   const dispatch = useDispatch();
   const remove = () => dispatch(removeItem(id));
