@@ -213,6 +213,7 @@ export const GameCenter = (props: any) => {
   useEffect(() => {
     // IT HAS TO START ONLY ONCE
     localDispatch({ type: Event.Initialize, payload: game.startGame(players) });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const resetTurnVariables = () => {
@@ -292,7 +293,7 @@ export const GameCenter = (props: any) => {
     } else if (unifiedBonus.isDecreaseOtherPlayersPoints) {
       players
         .filter((player) => player.id !== state.currentTurn?.currentPlayer.id)
-        .map((player) => {
+        .forEach((player) => {
           dispatch(addPoints({ id: player.id, points: -5 }));
         });
     }
