@@ -67,7 +67,10 @@ body::-webkit-scrollbar {
   content: '';
   position: absolute;
   top: -17px;
-  border: 10px solid transparent;
-  border-bottom-color: currentColor;
-  border-top: none;
+  border-top: 1px solid rgb(121, 121, 121);
+  border-left: 1px solid rgb(121, 121, 121);
+  width: 20px;
+  height: 20px;
+  background: inherit;
+  rotate: 45deg;
 }
