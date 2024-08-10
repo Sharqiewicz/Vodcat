@@ -1,4 +1,4 @@
-import {useEffect} from 'react'
+import { useEffect } from 'react';
 //@ts-ignore
 import ConfettiGenerator from 'confetti-js';
 import { NormalLayout } from '../../layouts/NormalLayout';
@@ -22,16 +22,25 @@ const Index = (props: any) => {
     confetti.render();
 
     return () => confetti.clear();
-  }, [])
+  }, []);
 
   return (
-    <NormalLayout>
-      <Container>
-        {playersCopy.sort(compare).map((player: any, index: number) => (
-          <PlayerCard isFirst={index === 0} isSecond={index === 1} isThird={index === 2}{...player} withPoints={true} />
-        ))}
-      </Container>
-    </NormalLayout>
+    <>
+      <canvas id="my-canvas" style={{ position: 'absolute', zIndex: 2 }}></canvas>
+      <NormalLayout>
+        <Container>
+          {playersCopy.sort(compare).map((player: any, index: number) => (
+            <PlayerCard
+              isFirst={index === 0}
+              isSecond={index === 1}
+              isThird={index === 2}
+              {...player}
+              withPoints={true}
+            />
+          ))}
+        </Container>
+      </NormalLayout>
+    </>
   );
 };
 

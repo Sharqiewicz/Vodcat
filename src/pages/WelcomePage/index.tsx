@@ -5,7 +5,7 @@ import { NormalLayout } from '../../layouts/NormalLayout';
 import { RouteButton } from '../../styles/elements';
 import IMG from './converted_logo.png';
 // @ts-ignore
-import ThemeSound from './theme.mp3';
+import ThemeSound from './sounds/theme.mp3';
 
 const WelcomePage = () => {
   useEffect(() => {
