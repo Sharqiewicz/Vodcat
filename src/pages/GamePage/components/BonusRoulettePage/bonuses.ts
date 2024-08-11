@@ -57,16 +57,18 @@ export const getUnifiedBonusObject = (bonus: Bonus): UnifiedBonus => {
 };
 
 const bonuses: Bonus[] = [
+  steal10Points,
+  decreaseOtherPlayersPoints,
   minus5Points,
+  increaseChanceForAlcoholForEveryone,
   changeAlcohol,
   points2x,
   minus10points,
   plus20points,
-  minus15points,
-  points2x,
-  dontDrinkPlus15Points,
-  changeAlcohol,
   minus10points,
+  points2x,
+  changeAlcohol,
+  dontDrinkPlus15Points,
   steal10Points,
   increaseChanceForAlcoholForEveryone,
   decreaseOtherPlayersPoints,

@@ -9,23 +9,18 @@ import ThemeSound from './sounds/theme.mp3';
 
 const WelcomePage = () => {
   useEffect(() => {
+    const themeSound = new Audio(ThemeSound);
+    themeSound.loop = true;
+    themeSound.play();
+
     const confettiSettings = { target: 'my-canvas' };
     const confetti = new ConfettiGenerator(confettiSettings);
     confetti.render();
 
-    return () => confetti.clear();
-  }, []);
-
-  useEffect(() => {
-    const themeSound = new Audio(ThemeSound);
-
-    themeSound.loop = true;
-
-    themeSound.play();
-
     return () => {
       themeSound.pause();
       themeSound.currentTime = 0;
+      confetti.clear();
     };
   }, []);
 

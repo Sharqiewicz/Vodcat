@@ -6,8 +6,6 @@ import { NormalLayout } from '../../layouts/NormalLayout';
 export default function DrinkPage() {
   const [isNewRound, setIsNewRound] = useState(true);
 
-  console.log('PARENT isNewRound', isNewRound);
-
   return (
     <NormalLayout>
       {isNewRound ? <RoundResults setIsNewRound={setIsNewRound} /> : <GameCenter setIsNewRound={setIsNewRound} />}
